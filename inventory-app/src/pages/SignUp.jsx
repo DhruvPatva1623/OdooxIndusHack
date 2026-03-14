@@ -1,7 +1,44 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 export default function SignUp() {
+  const [formData, setFormData] = useState({
+    full_name: '',
+    email: '',
+    password: ''
+  });
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  
+  const { signup } = useAuth();
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+    if (!formData.full_name || !formData.email || !formData.password) {
+      setError('Please fill out all fields.');
+      return;
+    }
+
+    setIsLoading(true);
+    setError('');
+
+    const result = await signup(formData);
+    
+    setIsLoading(false);
+    
+    if (result.success) {
+      navigate('/warehouse');
+    } else {
+      setError(result.error || 'Failed to sign up. Please try again.');
+    }
+  };
+
   return (
     <div className="bg-background min-h-screen flex items-center justify-center p-6 sm:p-12 overflow-x-hidden">
       <div className="w-full max-w-6xl mx-auto flex flex-col lg:flex-row gap-0 lg:gap-16 items-stretch bg-white lg:bg-transparent rounded-2xl overflow-hidden shadow-2xl lg:shadow-none">
@@ -62,25 +99,49 @@ export default function SignUp() {
               <p className="font-body text-on-surface-variant text-sm">Create your organization profile to get started.</p>
             </div>
             
-            <form className="space-y-6">
+            <form className="space-y-6" onSubmit={handleSignUp}>
               <div className="space-y-2">
                 <label className="font-label text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Full Name</label>
                 <div className="relative">
-                  <input className="w-full no-border-input py-4 px-4 placeholder:text-outline/50 pl-4" placeholder="John Doe" type="text"/>
+                  <input 
+                    className="w-full no-border-input py-4 px-4 placeholder:text-outline/50 pl-4" 
+                    placeholder="John Doe" 
+                    type="text"
+                    name="full_name"
+                    value={formData.full_name}
+                    onChange={handleChange}
+                    required
+                  />
                   <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-outline-variant">person</span>
                 </div>
               </div>
               <div className="space-y-2">
                 <label className="font-label text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Work Email</label>
                 <div className="relative">
-                  <input className="w-full no-border-input py-4 px-4 placeholder:text-outline/50 pl-4" placeholder="john@company.com" type="email"/>
+                  <input 
+                    className="w-full no-border-input py-4 px-4 placeholder:text-outline/50 pl-4" 
+                    placeholder="john@company.com" 
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                  />
                   <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-outline-variant">alternate_email</span>
                 </div>
               </div>
               <div className="space-y-2">
                 <label className="font-label text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Create Password</label>
                 <div className="relative">
-                  <input className="w-full no-border-input py-4 px-4 placeholder:text-outline/50 pl-4" placeholder="Min. 8 characters" type="password"/>
+                  <input 
+                    className="w-full no-border-input py-4 px-4 placeholder:text-outline/50 pl-4" 
+                    placeholder="Min. 8 characters" 
+                    type="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    required
+                  />
                   <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-outline-variant">lock</span>
                 </div>
               </div>
@@ -92,9 +153,19 @@ export default function SignUp() {
                 </p>
               </div>
               
-              <Link to="/warehouse" className="block text-center w-full bg-on-secondary-fixed text-white py-4 rounded-xl font-headline font-bold text-sm tracking-wide shadow-lg shadow-on-secondary-fixed/20 hover:shadow-on-secondary-fixed/30 hover:bg-on-primary-fixed active:scale-[0.98] transition-all">
-                CREATE ACCOUNT
-              </Link>
+              {error && (
+                <div className="bg-error/10 text-error p-3 rounded-md text-sm font-medium">
+                  {error}
+                </div>
+              )}
+              
+              <button 
+                type="submit" 
+                disabled={isLoading}
+                className={`block text-center w-full bg-on-secondary-fixed text-white py-4 rounded-xl font-headline font-bold text-sm tracking-wide shadow-lg shadow-on-secondary-fixed/20 hover:shadow-on-secondary-fixed/30 hover:bg-on-primary-fixed active:scale-[0.98] transition-all ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
+              >
+                {isLoading ? 'CREATING ACCOUNT...' : 'CREATE ACCOUNT'}
+              </button>
             </form>
             
             <div className="pt-2 flex items-center gap-4">

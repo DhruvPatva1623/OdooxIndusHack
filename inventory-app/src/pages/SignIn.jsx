@@ -1,8 +1,37 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 export default function SignIn() {
   const [showSignup, setShowSignup] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSignIn = async (e) => {
+    e.preventDefault();
+    if (!email || !password) {
+      setError('Please enter both email and password.');
+      return;
+    }
+
+    setIsLoading(true);
+    setError('');
+
+    const result = await login(email, password);
+    
+    setIsLoading(false);
+    
+    if (result.success) {
+      navigate('/warehouse');
+    } else {
+      setError(result.error || 'Failed to sign in. Please check your credentials.');
+    }
+  };
 
   return (
     <div className="bg-background min-h-screen flex items-center justify-center p-6 overflow-hidden">
@@ -58,11 +87,20 @@ export default function SignIn() {
               <p className="text-on-surface-variant">Access your warehouse dashboard to manage stock levels.</p>
             </header>
 
-            <form action="#" className="space-y-6" method="POST">
+            <form className="space-y-6" onSubmit={handleSignIn}>
               <div>
                 <label className="block text-sm font-semibold text-on-surface-variant mb-2" htmlFor="email">Work Email</label>
                 <div className="relative">
-                  <input className="w-full no-border-input pt-4 pb-4 px-4" id="email" name="email" placeholder="name@company.com" type="email" />
+                  <input 
+                    className="w-full no-border-input pt-4 pb-4 px-4" 
+                    id="email" 
+                    name="email" 
+                    placeholder="name@company.com" 
+                    type="email" 
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
                 </div>
               </div>
               <div>
@@ -71,7 +109,16 @@ export default function SignIn() {
                   <Link className="text-xs font-semibold text-primary hover:text-on-secondary-container transition-colors" to="/forgot-password">Forgot Password?</Link>
                 </div>
                 <div className="relative">
-                  <input className="w-full no-border-input pt-4 pb-4 px-4" id="password" name="password" placeholder="••••••••" type="password" />
+                  <input 
+                    className="w-full no-border-input pt-4 pb-4 px-4" 
+                    id="password" 
+                    name="password" 
+                    placeholder="••••••••" 
+                    type="password" 
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
                 </div>
               </div>
 
@@ -80,10 +127,20 @@ export default function SignIn() {
                 <label className="text-sm text-on-surface-variant font-medium" htmlFor="remember">Remember this device</label>
               </div>
 
-              <Link to="/warehouse" className="w-full bg-primary hover:bg-on-secondary-fixed-variant text-on-primary font-headline font-bold py-4 rounded-lg transition-all transform hover:-translate-y-0.5 ambient-shadow flex items-center justify-center gap-2">
-                <span>Sign In</span>
-                <span className="material-symbols-outlined text-sm">arrow_forward</span>
-              </Link>
+              {error && (
+                <div className="bg-error/10 text-error p-3 rounded-md text-sm font-medium">
+                  {error}
+                </div>
+              )}
+
+              <button 
+                type="submit" 
+                disabled={isLoading}
+                className={`w-full bg-primary hover:bg-on-secondary-fixed-variant text-on-primary font-headline font-bold py-4 rounded-lg transition-all transform hover:-translate-y-0.5 ambient-shadow flex items-center justify-center gap-2 ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
+              >
+                <span>{isLoading ? 'Signing In...' : 'Sign In'}</span>
+                {!isLoading && <span className="material-symbols-outlined text-sm">arrow_forward</span>}
+              </button>
             </form>
 
             <div className="mt-8 pt-8 border-t border-surface-container-high text-center">
