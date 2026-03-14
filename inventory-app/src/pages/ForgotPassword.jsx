@@ -25,8 +25,8 @@ export default function ForgotPassword() {
 
       <main className="relative z-10 w-full max-w-md px-6">
         <div className="flex flex-col items-center mb-12">
-          <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary-container rounded-xl flex items-center justify-center shadow-lg mb-6">
-            <span className="material-symbols-outlined text-on-primary text-4xl">inventory_2</span>
+          <div className="w-16 h-16 rounded-xl flex items-center justify-center shadow-lg mb-6 overflow-hidden">
+            <img src="/logo.png" alt="Logo" className="w-full h-full object-contain" />
           </div>
           <h1 className="font-headline text-3xl font-bold tracking-tight text-on-surface mb-2">Inventory Pro</h1>
           <p className="text-on-surface-variant font-body text-sm uppercase tracking-widest">Warehouse Management</p>
