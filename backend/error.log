@@ -1,0 +1,519 @@
+Traceback (most recent call last):
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\clsregistry.py", line 515, in _resolve_name
+    rval = d[token]
+           ~^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\util\_collections.py", line 344, in __missing__
+    self[key] = val = self.creator(key)
+                      ^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\clsregistry.py", line 483, in _access_cls
+    return self.fallback[key]
+           ~~~~~~~~~~~~~^^^^^
+KeyError: 'Location'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\middleware\gzip.py", line 24, in __call__
+    await responder(scope, receive, send)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\middleware\gzip.py", line 44, in __call__
+    await self.app(scope, receive, self.send_with_gzip)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\middleware\cors.py", line 85, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\middleware\exceptions.py", line 65, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\_exception_handler.py", line 64, in wrapped_app
+    raise exc
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\routing.py", line 756, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\routing.py", line 776, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\routing.py", line 297, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\routing.py", line 77, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\_exception_handler.py", line 64, in wrapped_app
+    raise exc
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\routing.py", line 72, in app
+    response = await func(request)
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\fastapi\routing.py", line 278, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\fastapi\routing.py", line 193, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\concurrency.py", line 42, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\anyio\to_thread.py", line 63, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\anyio\_backends\_asyncio.py", line 2502, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\anyio\_backends\_asyncio.py", line 986, in run
+    result = context.run(func, *args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\backend\app\api\v1\auth\routes.py", line 16, in signup
+    if db.query(User).filter(User.email == payload.email.lower()).first():
+       ^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\session.py", line 2941, in query
+    return self._query_cls(entities, self, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\query.py", line 275, in __init__
+    self._set_entities(entities)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\query.py", line 287, in _set_entities
+    self._raw_columns = [
+                        ^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\query.py", line 288, in <listcomp>
+    coercions.expect(
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\sql\coercions.py", line 389, in expect
+    insp._post_inspect
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1253, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2711, in _post_inspect
+    self._check_configure()
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2388, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4204, in _configure_registries
+    _do_configure_registries(registries, cascade)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4245, in _do_configure_registries
+    mapper._post_configure_properties()
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2405, in _post_configure_properties
+    prop.init()
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\interfaces.py", line 584, in init
+    self.do_init()
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\relationships.py", line 1642, in do_init
+    self._setup_entity()
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\relationships.py", line 1854, in _setup_entity
+    self._clsregistry_resolve_name(argument)(),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\clsregistry.py", line 519, in _resolve_name
+    self._raise_for_name(name, err)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\clsregistry.py", line 500, in _raise_for_name
+    raise exc.InvalidRequestError(
+sqlalchemy.exc.InvalidRequestError: When initializing mapper Mapper[Warehouse(warehouses)], expression 'Location' failed to locate a name ('Location'). If this is a class name, consider adding this relationship() to the <class 'app.models.warehouse.Warehouse'> class after both dependent classes have been defined.
+
+================================================================================
+Traceback (most recent call last):
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\middleware\gzip.py", line 24, in __call__
+    await responder(scope, receive, send)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\middleware\gzip.py", line 44, in __call__
+    await self.app(scope, receive, self.send_with_gzip)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\middleware\cors.py", line 85, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\middleware\exceptions.py", line 65, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\_exception_handler.py", line 64, in wrapped_app
+    raise exc
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\routing.py", line 756, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\routing.py", line 776, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\routing.py", line 297, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\routing.py", line 77, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\_exception_handler.py", line 64, in wrapped_app
+    raise exc
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\routing.py", line 72, in app
+    response = await func(request)
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\fastapi\routing.py", line 278, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\fastapi\routing.py", line 193, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\concurrency.py", line 42, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\anyio\to_thread.py", line 63, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\anyio\_backends\_asyncio.py", line 2502, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\anyio\_backends\_asyncio.py", line 986, in run
+    result = context.run(func, *args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\backend\app\api\v1\auth\routes.py", line 61, in login
+    user = db.query(User).filter(User.email == payload.email.lower()).first()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\query.py", line 2728, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\query.py", line 2827, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\session.py", line 2351, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\session.py", line 2226, in _execute_internal
+    conn = self._connection_for_bind(bind)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\session.py", line 2095, in _connection_for_bind
+    return trans._connection_for_bind(engine, execution_options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 2, in _connection_for_bind
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\session.py", line 1189, in _connection_for_bind
+    conn = bind.connect()
+           ^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\engine\base.py", line 3276, in connect
+    return self._connection_cls(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\engine\base.py", line 146, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\engine\base.py", line 3300, in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\pool\base.py", line 449, in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\pool\base.py", line 1263, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\pool\base.py", line 712, in checkout
+    rec = pool._do_get()
+          ^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\pool\impl.py", line 179, in _do_get
+    with util.safe_reraise():
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\pool\impl.py", line 177, in _do_get
+    return self._create_connection()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\pool\base.py", line 390, in _create_connection
+    return _ConnectionRecord(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\pool\base.py", line 674, in __init__
+    self.__connect()
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\pool\base.py", line 900, in __connect
+    with util.safe_reraise():
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\pool\base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\engine\create.py", line 643, in connect
+    return dialect.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\engine\default.py", line 620, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Connection.__init__() got an unexpected keyword argument 'check_same_thread'
+
+================================================================================
+Traceback (most recent call last):
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\middleware\gzip.py", line 24, in __call__
+    await responder(scope, receive, send)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\middleware\gzip.py", line 44, in __call__
+    await self.app(scope, receive, self.send_with_gzip)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\middleware\cors.py", line 85, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\middleware\exceptions.py", line 65, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\_exception_handler.py", line 64, in wrapped_app
+    raise exc
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\routing.py", line 756, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\routing.py", line 776, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\routing.py", line 297, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\routing.py", line 77, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\_exception_handler.py", line 64, in wrapped_app
+    raise exc
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\routing.py", line 72, in app
+    response = await func(request)
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\fastapi\routing.py", line 278, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\fastapi\routing.py", line 193, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\concurrency.py", line 42, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\anyio\to_thread.py", line 63, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\anyio\_backends\_asyncio.py", line 2502, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\anyio\_backends\_asyncio.py", line 986, in run
+    result = context.run(func, *args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\backend\app\api\v1\auth\routes.py", line 61, in login
+    user = db.query(User).filter(User.email == payload.email.lower()).first()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\query.py", line 2728, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\query.py", line 2827, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\session.py", line 2351, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\session.py", line 2226, in _execute_internal
+    conn = self._connection_for_bind(bind)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\session.py", line 2095, in _connection_for_bind
+    return trans._connection_for_bind(engine, execution_options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 2, in _connection_for_bind
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\session.py", line 1189, in _connection_for_bind
+    conn = bind.connect()
+           ^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\engine\base.py", line 3276, in connect
+    return self._connection_cls(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\engine\base.py", line 146, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\engine\base.py", line 3300, in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\pool\base.py", line 449, in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\pool\base.py", line 1263, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\pool\base.py", line 712, in checkout
+    rec = pool._do_get()
+          ^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\pool\impl.py", line 179, in _do_get
+    with util.safe_reraise():
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\pool\impl.py", line 177, in _do_get
+    return self._create_connection()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\pool\base.py", line 390, in _create_connection
+    return _ConnectionRecord(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\pool\base.py", line 674, in __init__
+    self.__connect()
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\pool\base.py", line 900, in __connect
+    with util.safe_reraise():
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\pool\base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\engine\create.py", line 643, in connect
+    return dialect.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\engine\default.py", line 620, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Connection.__init__() got an unexpected keyword argument 'check_same_thread'
+
+================================================================================
+Traceback (most recent call last):
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\clsregistry.py", line 515, in _resolve_name
+    rval = d[token]
+           ~^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\util\_collections.py", line 344, in __missing__
+    self[key] = val = self.creator(key)
+                      ^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\clsregistry.py", line 483, in _access_cls
+    return self.fallback[key]
+           ~~~~~~~~~~~~~^^^^^
+KeyError: 'Location'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\middleware\gzip.py", line 26, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\middleware\cors.py", line 85, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\middleware\exceptions.py", line 65, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\_exception_handler.py", line 64, in wrapped_app
+    raise exc
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\routing.py", line 756, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\routing.py", line 776, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\routing.py", line 297, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\routing.py", line 77, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\_exception_handler.py", line 64, in wrapped_app
+    raise exc
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\routing.py", line 72, in app
+    response = await func(request)
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\fastapi\routing.py", line 278, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\fastapi\routing.py", line 193, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\concurrency.py", line 42, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\anyio\to_thread.py", line 63, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\anyio\_backends\_asyncio.py", line 2502, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\anyio\_backends\_asyncio.py", line 986, in run
+    result = context.run(func, *args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\backend\app\api\v1\auth\routes.py", line 16, in signup
+    if db.query(User).filter(User.email == payload.email.lower()).first():
+       ^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\session.py", line 2941, in query
+    return self._query_cls(entities, self, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\query.py", line 275, in __init__
+    self._set_entities(entities)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\query.py", line 287, in _set_entities
+    self._raw_columns = [
+                        ^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\query.py", line 288, in <listcomp>
+    coercions.expect(
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\sql\coercions.py", line 389, in expect
+    insp._post_inspect
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1253, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2711, in _post_inspect
+    self._check_configure()
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2388, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4204, in _configure_registries
+    _do_configure_registries(registries, cascade)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4245, in _do_configure_registries
+    mapper._post_configure_properties()
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2405, in _post_configure_properties
+    prop.init()
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\interfaces.py", line 584, in init
+    self.do_init()
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\relationships.py", line 1642, in do_init
+    self._setup_entity()
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\relationships.py", line 1854, in _setup_entity
+    self._clsregistry_resolve_name(argument)(),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\clsregistry.py", line 519, in _resolve_name
+    self._raise_for_name(name, err)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\clsregistry.py", line 500, in _raise_for_name
+    raise exc.InvalidRequestError(
+sqlalchemy.exc.InvalidRequestError: When initializing mapper Mapper[Warehouse(warehouses)], expression 'Location' failed to locate a name ('Location'). If this is a class name, consider adding this relationship() to the <class 'app.models.warehouse.Warehouse'> class after both dependent classes have been defined.
+
+================================================================================
+Traceback (most recent call last):
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\middleware\gzip.py", line 26, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\middleware\cors.py", line 85, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\middleware\exceptions.py", line 65, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\_exception_handler.py", line 64, in wrapped_app
+    raise exc
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\routing.py", line 756, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\routing.py", line 776, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\routing.py", line 297, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\routing.py", line 77, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\_exception_handler.py", line 64, in wrapped_app
+    raise exc
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\routing.py", line 72, in app
+    response = await func(request)
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\fastapi\routing.py", line 278, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\fastapi\routing.py", line 193, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\starlette\concurrency.py", line 42, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\anyio\to_thread.py", line 63, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\anyio\_backends\_asyncio.py", line 2502, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\anyio\_backends\_asyncio.py", line 986, in run
+    result = context.run(func, *args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\backend\app\api\v1\auth\routes.py", line 16, in signup
+    if db.query(User).filter(User.email == payload.email.lower()).first():
+       ^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\session.py", line 2941, in query
+    return self._query_cls(entities, self, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\query.py", line 275, in __init__
+    self._set_entities(entities)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\query.py", line 287, in _set_entities
+    self._raw_columns = [
+                        ^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\query.py", line 288, in <listcomp>
+    coercions.expect(
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\sql\coercions.py", line 389, in expect
+    insp._post_inspect
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1253, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ^^^^^^^^^^^^^^
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2711, in _post_inspect
+    self._check_configure()
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2388, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4204, in _configure_registries
+    _do_configure_registries(registries, cascade)
+  File "C:\Users\DHRUV NARENDRA PATVA\coreinventory\.venv311\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4241, in _do_configure_registries
+    raise e
+sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[Warehouse(warehouses)]'. Original exception was: When initializing mapper Mapper[Warehouse(warehouses)], expression 'Location' failed to locate a name ('Location'). If this is a class name, consider adding this relationship() to the <class 'app.models.warehouse.Warehouse'> class after both dependent classes have been defined.
+
+================================================================================
