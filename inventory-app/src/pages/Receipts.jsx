@@ -1,8 +1,39 @@
 import React, { useState } from 'react';
 import Layout from '../components/Layout';
+import { showToast } from '../components/Toast';
+
+const ALL_RECEIPTS = [
+  { ref: 'WH/IN/00021', supplier: 'Steel Corporation Ltd', date: 'Today, 14:00', status: 'ready' },
+  { ref: 'WH/IN/00022', supplier: 'Timber Supplies Co', date: 'Tomorrow, 09:00', status: 'draft' },
+  { ref: 'WH/IN/00020', supplier: 'Office Imports Inc.', date: 'Oct 20, 2024', status: 'ready' },
+  { ref: 'WH/IN/00019', supplier: 'Steel Corporation Ltd', date: 'Oct 19, 2024', status: 'draft' },
+];
+
+const STATUS_STYLES = {
+  ready: 'bg-tertiary-container text-on-tertiary-container',
+  draft: 'bg-surface-container-highest text-on-surface-variant',
+  done: 'bg-primary/10 text-primary',
+};
 
 export default function Receipts() {
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [activeFilter, setActiveFilter] = useState('all');
+  const [search, setSearch] = useState('');
+
+  const filtered = ALL_RECEIPTS.filter(r => {
+    const matchFilter = activeFilter === 'all' || r.status === activeFilter;
+    const matchSearch = r.ref.toLowerCase().includes(search.toLowerCase()) || r.supplier.toLowerCase().includes(search.toLowerCase());
+    return matchFilter && matchSearch;
+  });
+
+  function handleConfirm() {
+    setShowCreateModal(false);
+    showToast({ title: 'Receipt Created', message: 'New receipt saved as Draft. Review and mark as Ready.', type: 'success' });
+  }
+
+  function handleReview(ref) {
+    showToast({ title: 'Reviewing ' + ref, message: 'Receipt opened for processing. Validate quantities and confirm.', type: 'info' });
+  }
 
   return (
     <Layout>
@@ -11,7 +42,7 @@ export default function Receipts() {
           <h2 className="text-3xl font-headline font-extrabold text-on-surface">Receipts (Incoming)</h2>
           <p className="text-on-surface-variant font-medium mt-1">Manage incoming stock from vendors and suppliers.</p>
         </div>
-        <button 
+        <button
           onClick={() => setShowCreateModal(true)}
           className="px-5 py-2 brand-gradient text-on-primary rounded-xl font-bold shadow-md hover:scale-[1.02] transition-transform flex items-center gap-2"
         >
@@ -21,46 +52,47 @@ export default function Receipts() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="bg-surface-container-lowest p-6 rounded-[2rem] border border-outline-variant/20 shadow-sm flex items-center justify-between">
+        <button onClick={() => setActiveFilter('all')} className="text-left bg-surface-container-lowest p-6 rounded-[2rem] border border-outline-variant/20 shadow-sm flex items-center justify-between hover:border-primary/30 transition-colors">
           <div>
-             <span className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">To Receive</span>
-             <h3 className="text-2xl font-headline font-extrabold mt-1">12</h3>
+            <span className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">To Receive</span>
+            <h3 className="text-2xl font-headline font-extrabold mt-1">12</h3>
           </div>
           <div className="w-12 h-12 bg-secondary/10 text-secondary rounded-2xl flex items-center justify-center">
-             <span className="material-symbols-outlined" style={{fontVariationSettings: "'FILL' 1"}}>inventory</span>
+            <span className="material-symbols-outlined" style={{fontVariationSettings: "'FILL' 1"}}>inventory</span>
           </div>
-        </div>
-        <div className="bg-surface-container-lowest p-6 rounded-[2rem] border border-outline-variant/20 shadow-sm flex items-center justify-between">
+        </button>
+        <button onClick={() => setActiveFilter('draft')} className="text-left bg-surface-container-lowest p-6 rounded-[2rem] border border-outline-variant/20 shadow-sm flex items-center justify-between hover:border-primary/30 transition-colors">
           <div>
-             <span className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Draft Receipts</span>
-             <h3 className="text-2xl font-headline font-extrabold mt-1">3</h3>
+            <span className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Draft Receipts</span>
+            <h3 className="text-2xl font-headline font-extrabold mt-1">3</h3>
           </div>
           <div className="w-12 h-12 bg-surface-container-highest text-on-surface-variant rounded-2xl flex items-center justify-center">
-             <span className="material-symbols-outlined" style={{fontVariationSettings: "'FILL' 1"}}>edit_document</span>
+            <span className="material-symbols-outlined" style={{fontVariationSettings: "'FILL' 1"}}>edit_document</span>
           </div>
-        </div>
-        <div className="bg-primary/5 p-6 rounded-[2rem] border border-primary/20 shadow-sm flex items-center justify-between">
+        </button>
+        <button onClick={() => setActiveFilter('ready')} className="text-left bg-primary/5 p-6 rounded-[2rem] border border-primary/20 shadow-sm flex items-center justify-between hover:border-primary/50 transition-colors">
           <div>
-             <span className="text-xs font-bold text-primary uppercase tracking-wider">Completed Today</span>
-             <h3 className="text-2xl font-headline font-extrabold text-primary mt-1">8</h3>
+            <span className="text-xs font-bold text-primary uppercase tracking-wider">Completed Today</span>
+            <h3 className="text-2xl font-headline font-extrabold text-primary mt-1">8</h3>
           </div>
           <div className="w-12 h-12 bg-primary text-on-primary rounded-2xl flex items-center justify-center">
-             <span className="material-symbols-outlined" style={{fontVariationSettings: "'FILL' 1"}}>check_circle</span>
+            <span className="material-symbols-outlined" style={{fontVariationSettings: "'FILL' 1"}}>check_circle</span>
           </div>
-        </div>
+        </button>
       </div>
 
-      {/* Main Table */}
       <div className="bg-surface-container-lowest rounded-[2.5rem] shadow-sm border border-outline-variant/20 p-4">
         <div className="flex items-center justify-between px-6 py-4">
           <div className="flex gap-2">
-            <span className="px-4 py-1.5 bg-surface-container-highest rounded-full text-xs font-semibold text-primary cursor-pointer hover:bg-outline-variant/30 transition-colors">All Receipts</span>
-            <span className="px-4 py-1.5 hover:bg-surface-container-highest transition-colors rounded-full text-xs font-semibold text-on-surface-variant cursor-pointer">Ready</span>
-            <span className="px-4 py-1.5 hover:bg-surface-container-highest transition-colors rounded-full text-xs font-semibold text-on-surface-variant cursor-pointer">Draft</span>
+            {['all','ready','draft'].map(f => (
+              <button key={f} onClick={() => setActiveFilter(f)} className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-colors ${activeFilter === f ? 'bg-surface-container-highest text-primary' : 'hover:bg-surface-container-highest text-on-surface-variant'}`}>
+                {f === 'all' ? 'All Receipts' : f.charAt(0).toUpperCase() + f.slice(1)}
+              </button>
+            ))}
           </div>
           <div className="relative w-64">
             <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
-            <input className="bg-surface-container-low border-none rounded-full pl-10 pr-6 py-2 text-sm w-full focus:ring-2 focus:ring-primary transition-all" placeholder="Search reference..." type="text" />
+            <input value={search} onChange={e => setSearch(e.target.value)} className="bg-surface-container-low border-none rounded-full pl-10 pr-6 py-2 text-sm w-full focus:ring-2 focus:ring-primary transition-all" placeholder="Search reference..." type="text" />
           </div>
         </div>
 
@@ -76,32 +108,26 @@ export default function Receipts() {
               </tr>
             </thead>
             <tbody className="divide-y divide-outline-variant/10">
-              <tr className="group hover:bg-surface-container-highest/30 transition-colors">
-                <td className="px-8 py-5">
-                  <div className="font-bold text-primary">WH/IN/00021</div>
-                </td>
-                <td className="px-6 py-5 font-medium text-sm">Steel Corporation Ltd</td>
-                <td className="px-6 py-5 text-sm">Today, 14:00</td>
-                <td className="px-6 py-5">
-                  <span className="inline-flex items-center px-3 py-1 bg-tertiary-container text-on-tertiary-container rounded-full text-[10px] font-bold uppercase tracking-wider shadow-sm">Ready</span>
-                </td>
-                <td className="px-8 py-5 text-right">
-                  <button className="px-4 py-1.5 bg-primary/10 text-primary font-bold rounded-lg text-xs hover:bg-primary hover:text-on-primary transition-colors">Review</button>
-                </td>
-              </tr>
-              <tr className="group hover:bg-surface-container-highest/30 transition-colors">
-                <td className="px-8 py-5">
-                  <div className="font-bold text-primary">WH/IN/00022</div>
-                </td>
-                <td className="px-6 py-5 font-medium text-sm">Timber Supplies Co</td>
-                <td className="px-6 py-5 text-sm">Tomorrow, 09:00</td>
-                <td className="px-6 py-5">
-                  <span className="inline-flex items-center px-3 py-1 bg-surface-container-highest text-on-surface-variant rounded-full text-[10px] font-bold uppercase tracking-wider">Draft</span>
-                </td>
-                <td className="px-8 py-5 text-right">
-                  <button className="px-4 py-1.5 bg-primary/10 text-primary font-bold rounded-lg text-xs hover:bg-primary hover:text-on-primary transition-colors">Review</button>
-                </td>
-              </tr>
+              {filtered.length === 0 && (
+                <tr><td colSpan={5} className="px-8 py-12 text-center text-on-surface-variant text-sm">No receipts found.</td></tr>
+              )}
+              {filtered.map(r => (
+                <tr key={r.ref} className="group hover:bg-surface-container-highest/30 transition-colors">
+                  <td className="px-8 py-5"><div className="font-bold text-primary">{r.ref}</div></td>
+                  <td className="px-6 py-5 font-medium text-sm">{r.supplier}</td>
+                  <td className="px-6 py-5 text-sm">{r.date}</td>
+                  <td className="px-6 py-5">
+                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-sm ${STATUS_STYLES[r.status] || STATUS_STYLES.draft}`}>
+                      {r.status}
+                    </span>
+                  </td>
+                  <td className="px-8 py-5 text-right">
+                    <button onClick={() => handleReview(r.ref)} className="px-4 py-1.5 bg-primary/10 text-primary font-bold rounded-lg text-xs hover:bg-primary hover:text-on-primary transition-colors">
+                      Review
+                    </button>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
@@ -116,17 +142,15 @@ export default function Receipts() {
                 <span className="material-symbols-outlined text-sm">close</span>
               </button>
             </div>
-            
             <div className="p-8 overflow-y-auto space-y-6">
               <div>
                 <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">Supplier *</label>
-                <select className="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all appearance-none cursor-pointer">
+                <select className="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary outline-none transition-all appearance-none cursor-pointer">
                   <option>Select / Add Supplier...</option>
                   <option>Steel Corporation Ltd</option>
                   <option>Office Imports Inc.</option>
                 </select>
               </div>
-
               <div>
                 <h4 className="font-bold text-sm mb-4">Operations / Items</h4>
                 <div className="bg-surface-container-low rounded-xl border border-outline-variant/30 p-4">
@@ -135,8 +159,6 @@ export default function Receipts() {
                     <div className="col-span-3 text-xs font-bold text-on-surface-variant uppercase px-2">Demand</div>
                     <div className="col-span-3 text-xs font-bold text-on-surface-variant uppercase px-2">Done</div>
                   </div>
-                  
-                  {/* Item Row */}
                   <div className="grid grid-cols-12 gap-4 items-center mb-3">
                     <div className="col-span-6">
                       <select className="w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary outline-none appearance-none">
@@ -151,23 +173,17 @@ export default function Receipts() {
                       <input type="number" defaultValue="0" className="w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary outline-none" />
                     </div>
                   </div>
-
                   <button className="text-secondary text-sm font-bold flex items-center gap-1 mt-4 px-2 hover:underline">
                     <span className="material-symbols-outlined text-sm">add</span> Add a line
                   </button>
                 </div>
               </div>
             </div>
-
             <div className="p-6 border-t border-outline-variant/20 bg-surface-container-low flex justify-between items-center">
               <span className="text-xs text-on-surface-variant">Status will be <strong className="text-primary">Draft</strong></span>
               <div className="flex gap-3">
-                <button onClick={() => setShowCreateModal(false)} className="px-6 py-2.5 bg-surface-container-highest text-on-surface font-bold rounded-xl hover:bg-outline-variant/30 transition-colors">
-                  Cancel
-                </button>
-                <button onClick={() => setShowCreateModal(false)} className="px-6 py-2.5 brand-gradient text-on-primary font-bold rounded-xl shadow-md hover:scale-[1.02] transition-transform">
-                  Confirm Receipt
-                </button>
+                <button onClick={() => setShowCreateModal(false)} className="px-6 py-2.5 bg-surface-container-highest text-on-surface font-bold rounded-xl hover:bg-outline-variant/30 transition-colors">Cancel</button>
+                <button onClick={handleConfirm} className="px-6 py-2.5 brand-gradient text-on-primary font-bold rounded-xl shadow-md hover:scale-[1.02] transition-transform">Confirm Receipt</button>
               </div>
             </div>
           </div>

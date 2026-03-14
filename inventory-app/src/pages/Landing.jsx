@@ -20,7 +20,7 @@ export default function Landing() {
             <a className="text-on-surface-variant font-medium hover:text-primary transition-colors" href="#">Enterprise</a>
             <div className="h-6 w-px bg-outline-variant/30"></div>
             <Link to="/signin" className="text-on-surface font-semibold hover:text-primary transition-colors">Login</Link>
-            <Link to="/signup" className="px-6 py-2.5 brand-gradient text-on-primary font-bold rounded-lg shadow-lg hover:opacity-90 transition-all">
+            <Link to="/dashboard" className="px-6 py-2.5 brand-gradient text-on-primary font-bold rounded-lg shadow-lg hover:opacity-90 transition-all">
               Get Started
             </Link>
           </div>
@@ -33,7 +33,7 @@ export default function Landing() {
 
       <main className="pt-20">
         {/* Hero Section */}
-        <section className="relative overflow-hidden py-24 lg:py-32">
+        <section className="relative overflow-hidden py-24 lg:py-32" style={{background: 'radial-gradient(ellipse 80% 60% at 70% 40%, rgba(115,69,182,0.08) 0%, transparent 70%), radial-gradient(ellipse 40% 50% at 20% 80%, rgba(183,142,254,0.1) 0%, transparent 60%)'}}>
           <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
             
             <div className="relative z-10">
@@ -48,7 +48,7 @@ export default function Landing() {
               </p>
               
               <div className="flex flex-wrap gap-4">
-                <Link to="/signup" className="px-8 py-4 brand-gradient text-on-primary font-bold rounded-xl shadow-xl hover:scale-[1.02] transition-transform flex items-center gap-2">
+                <Link to="/dashboard" className="px-8 py-4 brand-gradient text-on-primary font-bold rounded-xl shadow-xl hover:scale-[1.02] transition-transform flex items-center gap-2">
                   Deploy Now <span className="material-symbols-outlined">arrow_forward</span>
                 </Link>
                 <button className="px-8 py-4 bg-surface-container-low text-primary font-bold rounded-xl hover:bg-surface-container-high transition-colors">
@@ -206,7 +206,7 @@ export default function Landing() {
                 <h2 className="font-headline text-4xl lg:text-6xl font-extrabold text-on-primary mb-8">Ready to curate your inventory?</h2>
                 <p className="text-on-primary/90 text-lg mb-12 font-medium">Join Inventory Pro today and experience the future of warehouse management with our 14-day premium trial.</p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Link to="/signup" className="px-10 py-5 bg-white text-primary font-extrabold rounded-2xl shadow-2xl hover:bg-surface-container-low transition-colors">
+                  <Link to="/dashboard" className="px-10 py-5 bg-white text-primary font-extrabold rounded-2xl shadow-2xl hover:bg-surface-container-low transition-colors">
                     Create Your Free Account
                   </Link>
                   <button className="px-10 py-5 bg-primary-container/20 text-on-primary font-bold border border-white/30 rounded-2xl hover:bg-white/10 transition-colors">

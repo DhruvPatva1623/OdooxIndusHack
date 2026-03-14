@@ -1,7 +1,19 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function ForgotPassword() {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState('');
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (!email || !email.includes('@')) {
+      setError('Please enter a valid email address.');
+      return;
+    }
+    navigate('/otp');
+  }
   return (
     <div className="bg-background text-on-background min-h-screen flex flex-col justify-center items-center overflow-hidden">
       {/* Ambient Texture Layer */}
@@ -28,7 +40,7 @@ export default function ForgotPassword() {
             </p>
           </div>
 
-          <form className="space-y-6">
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="space-y-2">
               <label className="block text-xs font-semibold text-primary font-label uppercase tracking-wider ml-1" htmlFor="email">
                 Work Email
@@ -37,17 +49,18 @@ export default function ForgotPassword() {
                 <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
                   <span className="material-symbols-outlined text-on-surface-variant text-xl group-focus-within:text-primary transition-colors">mail</span>
                 </div>
-                <input className="w-full pl-12 pr-4 py-4 no-border-input" id="email" placeholder="name@company.com" type="email" />
+                <input value={email} onChange={e => { setEmail(e.target.value); setError(''); }} className="w-full pl-12 pr-4 py-4 no-border-input" id="email" placeholder="name@company.com" type="email" />
                 <div className="absolute bottom-0 left-0 w-full h-0.5 bg-primary scale-x-0 group-focus-within:scale-x-100 transition-transform duration-300 rounded-full"></div>
               </div>
+              {error && <p className="text-xs text-error ml-1 mt-1">{error}</p>}
             </div>
 
-            <Link to="/otp" className="w-full block text-center group relative overflow-hidden bg-gradient-to-br from-primary to-primary-container py-4 rounded-lg shadow-md hover:shadow-primary/20 transition-all duration-300 active:scale-[0.98]">
+            <button type="submit" className="w-full block text-center group relative overflow-hidden bg-gradient-to-br from-primary to-primary-container py-4 rounded-lg shadow-md hover:shadow-primary/20 transition-all duration-300 active:scale-[0.98]">
               <div className="flex items-center justify-center space-x-2 relative z-10">
                 <span className="font-headline font-bold text-on-primary tracking-wide">Send OTP</span>
                 <span className="material-symbols-outlined text-on-primary text-lg transition-transform group-hover:translate-x-1">arrow_forward</span>
               </div>
-            </Link>
+            </button>
           </form>
 
           <div className="mt-8 pt-6 border-t border-outline-variant/10 flex justify-center">

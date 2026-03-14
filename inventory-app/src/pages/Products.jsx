@@ -1,8 +1,23 @@
 import React, { useState } from 'react';
 import Layout from '../components/Layout';
+import { showToast } from '../components/Toast';
 
 export default function Products() {
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [search, setSearch] = useState('');
+
+  function handleSave() {
+    setShowCreateModal(false);
+    showToast({ title: 'Product Created', message: 'New product added to your catalog successfully.', type: 'success' });
+  }
+
+  function handleExport() {
+    showToast({ title: 'Export Started', message: 'Your product catalog CSV is being prepared for download.', type: 'info' });
+  }
+
+  function handleMoreOptions(name) {
+    showToast({ title: name, message: 'View, edit, or archive this product using the options panel.', type: 'info' });
+  }
 
   return (
     <Layout>
@@ -12,7 +27,7 @@ export default function Products() {
           <p className="text-on-surface-variant font-medium mt-1">Manage your catalog, stock availability, and categories.</p>
         </div>
         <div className="flex gap-3">
-          <button className="px-4 py-2 bg-surface-container-highest rounded-xl text-sm font-semibold text-on-surface hover:bg-outline-variant transition-colors flex items-center gap-2">
+          <button onClick={handleExport} className="px-4 py-2 bg-surface-container-highest rounded-xl text-sm font-semibold text-on-surface hover:bg-outline-variant transition-colors flex items-center gap-2">
             <span className="material-symbols-outlined text-sm">file_download</span>
             Export
           </button>
@@ -31,7 +46,7 @@ export default function Products() {
         <div className="flex items-center justify-between px-6 py-6 border-b border-outline-variant/10">
           <div className="relative w-72">
             <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
-            <input className="bg-surface-container-low border-none rounded-full pl-12 pr-6 py-2.5 text-sm w-full focus:ring-2 focus:ring-primary transition-all" placeholder="Search by name, SKU..." type="text" />
+            <input value={search} onChange={e => setSearch(e.target.value)} className="bg-surface-container-low border-none rounded-full pl-12 pr-6 py-2.5 text-sm w-full focus:ring-2 focus:ring-primary transition-all" placeholder="Search by name, SKU..." type="text" />
           </div>
           <div className="flex items-center gap-2">
             <button className="flex items-center gap-2 px-4 py-2 bg-surface-container-highest rounded-xl text-sm font-semibold text-on-surface hover:bg-outline-variant transition-colors">
@@ -71,10 +86,10 @@ export default function Products() {
                 <td className="px-6 py-6 text-sm font-medium">Units</td>
                 <td className="px-6 py-6 text-right font-bold text-primary">1,240</td>
                 <td className="px-8 py-6 text-center">
-                  <button className="p-2 text-on-surface-variant hover:text-primary transition-colors">
-                    <span className="material-symbols-outlined text-sm">more_horiz</span>
-                  </button>
-                </td>
+                    <button onClick={() => handleMoreOptions('Ergonomic Office Chair')} className="p-2 text-on-surface-variant hover:text-primary transition-colors">
+                      <span className="material-symbols-outlined text-sm">more_horiz</span>
+                    </button>
+                  </td>
               </tr>
               <tr className="group hover:bg-surface-container-highest/30 transition-colors">
                 <td className="px-8 py-6">
@@ -94,10 +109,10 @@ export default function Products() {
                 <td className="px-6 py-6 text-sm font-medium">kg</td>
                 <td className="px-6 py-6 text-right font-bold text-on-surface">8,500</td>
                 <td className="px-8 py-6 text-center">
-                  <button className="p-2 text-on-surface-variant hover:text-primary transition-colors">
-                    <span className="material-symbols-outlined text-sm">more_horiz</span>
-                  </button>
-                </td>
+                    <button onClick={() => handleMoreOptions('Steel Rods 10mm')} className="p-2 text-on-surface-variant hover:text-primary transition-colors">
+                      <span className="material-symbols-outlined text-sm">more_horiz</span>
+                    </button>
+                  </td>
               </tr>
               <tr className="group hover:bg-surface-container-highest/30 transition-colors">
                 <td className="px-8 py-6">
@@ -177,7 +192,7 @@ export default function Products() {
               <button onClick={() => setShowCreateModal(false)} className="px-6 py-2.5 bg-surface-container-highest text-on-surface font-bold rounded-xl hover:bg-outline-variant/30 transition-colors">
                 Cancel
               </button>
-              <button onClick={() => setShowCreateModal(false)} className="px-6 py-2.5 brand-gradient text-on-primary font-bold rounded-xl shadow-md hover:scale-[1.02] transition-transform">
+              <button onClick={handleSave} className="px-6 py-2.5 brand-gradient text-on-primary font-bold rounded-xl shadow-md hover:scale-[1.02] transition-transform">
                 Save Product
               </button>
             </div>

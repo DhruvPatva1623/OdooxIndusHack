@@ -1,24 +1,42 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { Toast, useToasts } from './Toast';
 
 export default function Layout({ children }) {
   const location = useLocation();
-  
-  const navItems = [
-    { name: 'Dashboard', icon: 'dashboard', path: '/dashboard' },
-    { name: 'Products', icon: 'inventory_2', path: '/products' },
-    { name: 'Receipts', icon: 'call_received', path: '/receipts' },
-    { name: 'Delivery Orders', icon: 'local_shipping', path: '/deliveries' },
-    { name: 'Internal Transfers', icon: 'swap_horiz', path: '/transfers' },
-    { name: 'Stock Adjustments', icon: 'build_circle', path: '/adjustments' },
-    { name: 'Warehouse', icon: 'warehouse', path: '/warehouse' },
-    { name: 'Stock Levels', icon: 'analytics', path: '/stock-levels' },
+  const { toasts, removeToast } = useToasts();
+
+  const navGroups = [
+    {
+      label: 'Overview',
+      items: [
+        { name: 'Dashboard', icon: 'dashboard', path: '/dashboard' },
+      ]
+    },
+    {
+      label: 'Operations',
+      items: [
+        { name: 'Products', icon: 'category', path: '/products' },
+        { name: 'Receipts', icon: 'call_received', path: '/receipts' },
+        { name: 'Delivery Orders', icon: 'local_shipping', path: '/deliveries' },
+        { name: 'Internal Transfers', icon: 'swap_horiz', path: '/transfers' },
+        { name: 'Stock Adjustments', icon: 'tune', path: '/adjustments' },
+        { name: 'Move History', icon: 'history', path: '/history' },
+      ]
+    },
+    {
+      label: 'Facilities',
+      items: [
+        { name: 'Warehouse', icon: 'warehouse', path: '/warehouse' },
+        { name: 'Stock Levels', icon: 'analytics', path: '/stock-levels' },
+      ]
+    },
   ];
 
   return (
     <div className="bg-background text-on-surface flex min-h-screen">
       {/* SideNavBar */}
-      <aside className="w-64 bg-surface-container-low flex flex-col border-r border-outline-variant/15 sticky top-0 h-screen overflow-y-auto shrink-0 custom-scrollbar">
+      <aside className="w-64 bg-surface-container-low flex flex-col border-r border-outline-variant/15 sticky top-0 h-screen overflow-y-auto shrink-0">
         <div className="p-8 flex flex-col gap-2">
           <Link to="/dashboard" className="flex items-center gap-3">
             <div className="w-10 h-10 brand-gradient rounded-lg flex items-center justify-center text-on-primary">
@@ -30,16 +48,24 @@ export default function Layout({ children }) {
             </div>
           </Link>
         </div>
-        <nav className="flex-1 px-4 py-2 space-y-1">
-          {navItems.map(item => {
-            const isActive = location.pathname.startsWith(item.path);
-            return (
-              <Link key={item.path} className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${isActive ? 'bg-surface-container-highest text-primary font-semibold' : 'hover:bg-surface-container-high text-on-surface-variant font-medium'}`} to={item.path}>
-                <span className="material-symbols-outlined">{item.icon}</span>
-                <span className="text-sm">{item.name}</span>
-              </Link>
-            )
-          })}
+
+        <nav className="flex-1 px-4 py-2 space-y-5">
+          {navGroups.map(group => (
+            <div key={group.label}>
+              <p className="text-[9px] font-extrabold text-outline uppercase tracking-[0.2em] px-4 mb-2">{group.label}</p>
+              <div className="space-y-0.5">
+                {group.items.map(item => {
+                  const isActive = location.pathname === item.path;
+                  return (
+                    <Link key={item.path} className={`flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-150 ${isActive ? 'bg-primary text-on-primary font-bold shadow-sm' : 'hover:bg-surface-container-high text-on-surface-variant font-medium'}`} to={item.path}>
+                      <span className="material-symbols-outlined text-[20px]" style={isActive ? {fontVariationSettings: "'FILL' 1"} : {}}>{item.icon}</span>
+                      <span className="text-sm">{item.name}</span>
+                    </Link>
+                  )
+                })}
+              </div>
+            </div>
+          ))}
         </nav>
 
         <div className="p-6">
@@ -71,7 +97,9 @@ export default function Layout({ children }) {
               <button className="hover:text-primary transition-colors"><span className="material-symbols-outlined">help</span></button>
             </div>
             <div className="w-px h-6 bg-outline-variant opacity-30"></div>
-            <img className="w-9 h-9 rounded-full object-cover border-2 border-primary-container" alt="User Avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfhDogpRpal3c3gBFfIg9bJuYpslsFOyek0BuWfRk2Cjqaqy0FTkJEdO0MMWogtFXxqd657WZTdQnkGJ9MV4788CLVa_uEJJUcIzABooqY2-LQTGYnSgHrIfRPKIVT_NPRgYkqmOKkzO_Z8a7jjc1qZj14Vdt0nAf7Q4uEOU_wmf7l7oUZzsfTifxW24rufxKvVibvi21q5LNreOzMRlxpBseF5Und0GTmzcQ7El5mcOd3j0oBfJAgcsZstl7YeYYyjE96DbXpj48-"/>
+            <Link to="/profile">
+              <img className="w-9 h-9 rounded-full object-cover border-2 border-primary-container hover:border-primary transition-colors" alt="User Avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfhDogpRpal3c3gBFfIg9bJuYpslsFOyek0BuWfRk2Cjqaqy0FTkJEdO0MMWogtFXxqd657WZTdQnkGJ9MV4788CLVa_uEJJUcIzABooqY2-LQTGYnSgHrIfRPKIVT_NPRgYkqmOKkzO_Z8a7jjc1qZj14Vdt0nAf7Q4uEOU_wmf7l7oUZzsfTifxW24rufxKvVibvi21q5LNreOzMRlxpBseF5Und0GTmzcQ7El5mcOd3j0oBfJAgcsZstl7YeYYyjE96DbXpj48-"/>
+            </Link>
           </div>
         </header>
 
@@ -80,6 +108,9 @@ export default function Layout({ children }) {
           {children}
         </div>
       </main>
+
+      {/* Global Toast Renderer */}
+      <Toast toasts={toasts} removeToast={removeToast} />
     </div>
   );
 }

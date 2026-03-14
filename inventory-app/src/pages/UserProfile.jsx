@@ -1,77 +1,30 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import Layout from '../components/Layout';
+import { showToast } from '../components/Toast';
 
 export default function UserProfile() {
+  const [emailNotif, setEmailNotif] = useState(true);
+  const [smsNotif, setSmsNotif] = useState(false);
+
+  function handleSave(e) {
+    e.preventDefault();
+    showToast({ title: 'Profile Saved', message: 'Your personal information has been updated successfully.', type: 'success' });
+  }
+
+  function handleCancel() {
+    showToast({ title: 'Changes Discarded', message: 'Your edits were not saved.', type: 'info' });
+  }
+
+  function handleSecurity() {
+    showToast({ title: 'Account Security', message: '2FA is active. Last login: Today 10:45 AM from Chrome / Windows.', type: 'info', duration: 5000 });
+  }
+
+  function handleEditPhoto() {
+    showToast({ title: 'Upload Photo', message: 'Photo upload panel coming soon. Max file size: 5MB (JPG, PNG).', type: 'info' });
+  }
   return (
-    <div className="flex min-h-screen bg-surface">
-      {/* SideNavBar */}
-      <aside className="w-72 bg-surface-container-low flex flex-col h-screen sticky top-0 border-r border-outline-variant/15">
-        <div className="p-8">
-          <div className="flex items-center gap-3 mb-10">
-            <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary-container rounded-xl flex items-center justify-center">
-              <span className="material-symbols-outlined text-on-primary" style={{fontVariationSettings: "'FILL' 1"}}>inventory_2</span>
-            </div>
-            <div>
-              <h1 className="font-headline font-extrabold text-on-surface text-xl leading-none">Inventory Pro</h1>
-              <p className="text-on-surface-variant text-xs mt-1">Warehouse Management</p>
-            </div>
-          </div>
-          <nav className="space-y-1">
-            <Link className="flex items-center gap-4 px-4 py-3 rounded-xl transition-colors text-on-surface-variant hover:bg-surface-container-highest" to="/">
-              <span className="material-symbols-outlined">dashboard</span>
-              <span className="font-medium">Dashboard</span>
-            </Link>
-            <Link className="flex items-center gap-4 px-4 py-3 rounded-xl transition-colors text-on-surface-variant hover:bg-surface-container-highest" to="/warehouse">
-              <span className="material-symbols-outlined">inventory_2</span>
-              <span className="font-medium">Warehouse</span>
-            </Link>
-            <Link className="flex items-center gap-4 px-4 py-3 rounded-xl transition-colors text-on-surface-variant hover:bg-surface-container-highest" to="/stock-levels">
-              <span className="material-symbols-outlined">analytics</span>
-              <span className="font-medium">Stock Levels</span>
-            </Link>
-            <Link className="flex items-center gap-4 px-4 py-3 rounded-xl transition-colors text-on-surface-variant hover:bg-surface-container-highest" to="/warehouse">
-              <span className="material-symbols-outlined">location_on</span>
-              <span className="font-medium">Locations</span>
-            </Link>
-          </nav>
-        </div>
-        <div className="mt-auto p-8">
-          <div className="bg-primary-container/30 p-4 rounded-xl flex items-center gap-3">
-            <img alt="User Profile" className="w-10 h-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-8uQk8bi6gi2_tdKtjAeDPuB5UOQsFzENywF1PcE3Npf6as9Odw8myXcKjB6i0kEpaBUhOoCiyQ5Jsew7SOfz5JycRiiyKz6xvM_f-4IR15Hsx_0a013uq_3lXm6ecL_6Y7ea1AyQSNkPiVLIs6s5IlcjPUMjVkkztLB4-8F7IY24eIYmC8OjS1j80MmtfdtydeI0rU9sXfOA3jc8Ki8wm7JY7HL1VuGNYRLh01kpk_NsupP3YSGSgBJKvbFLB_F3EvCTIiJvPNes"/>
-            <div className="overflow-hidden">
-              <p className="text-on-primary-container font-semibold text-sm truncate">Alex Rivera</p>
-              <p className="text-on-primary-container/70 text-xs truncate">Logistics Manager</p>
-            </div>
-          </div>
-        </div>
-      </aside>
-
-      <div className="flex-1 flex flex-col min-w-0 bg-surface">
-        {/* TopNavBar */}
-        <header className="h-20 flex items-center justify-between px-8 bg-surface-container-lowest/50 backdrop-blur-md sticky top-0 z-10 border-b border-outline-variant/15">
-          <div className="flex items-center gap-2">
-            <span className="text-on-surface-variant text-sm font-medium">Pages</span>
-            <span className="material-symbols-outlined text-on-surface-variant text-xs">chevron_right</span>
-            <span className="text-on-surface text-sm font-semibold">User Profile</span>
-          </div>
-          <div className="flex items-center gap-6">
-            <div className="relative w-72">
-              <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
-              <input className="w-full bg-surface-container-highest/50 border-none rounded-full py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-primary/20 placeholder:text-on-surface-variant/50" placeholder="Search inventory system..." type="text" />
-            </div>
-            <div className="flex items-center gap-4 text-on-surface-variant">
-              <span className="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">notifications</span>
-              <span className="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">settings</span>
-              <span className="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">help</span>
-            </div>
-            <div className="h-8 w-px bg-outline-variant/30"></div>
-            <img alt="User Avatar" className="w-9 h-9 rounded-full object-cover ring-2 ring-primary/10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDldFu85R239KBkPeF5fKbGR024K3S9CqeAZFaAXqll4X-p9ZQyAa8kNro6RAq-Nyy9nDtmZGxnqYDGXQ4Hs_DTbD_OsLkJgQFDFtVR6d5R6MKaTPTR3KPgvBOSNaqsRs9t7z1aFB54GSdJo4-mJuXl7EBsTrHE8CjyvfXxTHY5-rk0Fddke_hMe_EaoU-9vqeJQdG2RJC-4Ipd0sJn2jEOgJchLqHdrT5M8GY-vHBr3ZEuucoL5o6H7BDTpj-QxAy9QadQsEaj6BJa"/>
-          </div>
-        </header>
-
-        {/* Main Content */}
-        <main className="p-8 max-w-6xl mx-auto w-full pb-20">
-          <div className="mb-12">
+    <Layout>
+      <div className="mb-12">
             <h2 className="font-headline text-4xl font-extrabold tracking-tight text-on-surface mb-2">My Profile</h2>
             <p className="text-on-surface-variant">Update your photo and personal details here to manage your warehouse access.</p>
           </div>
@@ -86,7 +39,7 @@ export default function UserProfile() {
                   <div className="w-40 h-40 rounded-full overflow-hidden ring-4 ring-primary-container p-1">
                     <img alt="User Portrait" className="w-full h-full rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQVwRWPmUZoINbYP5yElW57GsFgTze1f8NCSdPE_TMxMb-lQYmiT0RMocwBku3Tn4yrhcuk6XFh-OIarDRC5vol9Ursm6bIpcStTYvBwkTSbJBQGc4XvAAYckLBb2eV7xuO9oMzwek73xrxQZM405JmLQ2bGUqFNiEHXrCoppsgaJ0mDOWrpdrXHxUnVSwu1-wEeYE942Fb1jUsebfT0N3HnGa2LhyY7aD4QS_ZEYTZMZS4ZZLC_m-lEfsLcXAjwIbkkFdx0_aOPF3"/>
                   </div>
-                  <button className="absolute bottom-2 right-2 bg-primary text-on-primary p-2 rounded-full shadow-lg hover:bg-primary-fixed-dim transition-colors group">
+                  <button onClick={handleEditPhoto} className="absolute bottom-2 right-2 bg-primary text-on-primary p-2 rounded-full shadow-lg hover:bg-primary-fixed-dim transition-colors group">
                     <span className="material-symbols-outlined text-sm leading-none" style={{fontVariationSettings: "'FILL' 1"}}>edit</span>
                   </button>
                 </div>
@@ -113,7 +66,7 @@ export default function UserProfile() {
                   <p className="font-bold">Account Security</p>
                 </div>
                 <p className="text-sm text-on-primary-container/70 mb-4 leading-relaxed">Your account is secured with two-factor authentication.</p>
-                <button className="w-full py-2 px-4 rounded-lg bg-white text-primary text-xs font-bold uppercase tracking-wider hover:bg-primary-container transition-colors">Manage Security</button>
+                <button onClick={handleSecurity} className="w-full py-2 px-4 rounded-lg bg-white text-primary text-xs font-bold uppercase tracking-wider hover:bg-primary-container transition-colors">Manage Security</button>
               </div>
             </div>
 
@@ -128,7 +81,7 @@ export default function UserProfile() {
                   <span className="material-symbols-outlined text-outline-variant">info</span>
                 </div>
                 
-                <form className="space-y-8" onSubmit={(e) => e.preventDefault()}>
+                <form className="space-y-8" onSubmit={handleSave}>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div className="space-y-2">
                       <label className="text-xs font-bold text-on-surface-variant uppercase tracking-widest ml-1">Full Name</label>
@@ -177,8 +130,8 @@ export default function UserProfile() {
                       <span className="text-xs italic">Last updated 2 days ago</span>
                     </div>
                     <div className="flex gap-4">
-                      <button className="px-6 py-3 rounded-lg text-primary font-bold hover:bg-primary/5 transition-colors" type="button">Cancel</button>
-                      <button className="bg-gradient-to-br from-primary to-secondary px-10 py-3 rounded-lg text-on-primary font-bold shadow-lg hover:shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all" type="submit">Save Changes</button>
+                      <button onClick={handleCancel} className="px-6 py-3 rounded-lg text-primary font-bold hover:bg-primary/5 transition-colors" type="button">Cancel</button>
+                      <button className="bg-gradient-to-br from-primary to-secondary px-10 py-3 rounded-lg text-on-primary font-bold shadow-lg hover:shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all" type="submit" onClick={handleSave}>Save Changes</button>
                     </div>
                   </div>
                 </form>
@@ -196,9 +149,12 @@ export default function UserProfile() {
                       <p className="text-xs text-on-surface-variant">Receive weekly inventory reports</p>
                     </div>
                   </div>
-                  <div className="w-12 h-6 bg-primary rounded-full relative p-1 cursor-pointer">
-                    <div className="w-4 h-4 bg-white rounded-full absolute right-1 top-1"></div>
-                  </div>
+                  <button
+                    onClick={() => { setEmailNotif(p => !p); showToast({ title: 'Email Notifications', message: emailNotif ? 'Email notifications disabled.' : 'Email notifications enabled.', type: emailNotif ? 'info' : 'success' }); }}
+                    className={`w-12 h-6 rounded-full relative p-1 cursor-pointer transition-colors duration-300 ${emailNotif ? 'bg-primary' : 'bg-outline-variant'}`}
+                  >
+                    <div className={`w-4 h-4 bg-white rounded-full absolute top-1 transition-all duration-300 ${emailNotif ? 'right-1' : 'left-1'}`}></div>
+                  </button>
                 </div>
 
                 <div className="bg-surface-container-low rounded-xl p-6 flex items-center justify-between">
@@ -211,15 +167,16 @@ export default function UserProfile() {
                       <p className="text-xs text-on-surface-variant">Low stock critical alerts</p>
                     </div>
                   </div>
-                  <div className="w-12 h-6 bg-outline-variant rounded-full relative p-1 cursor-pointer">
-                    <div className="w-4 h-4 bg-white rounded-full absolute left-1 top-1 shadow-sm"></div>
-                  </div>
+                  <button
+                    onClick={() => { setSmsNotif(p => !p); showToast({ title: 'SMS Alerts', message: smsNotif ? 'SMS alerts disabled.' : 'SMS alerts enabled for critical low-stock events.', type: smsNotif ? 'info' : 'success' }); }}
+                    className={`w-12 h-6 rounded-full relative p-1 cursor-pointer transition-colors duration-300 ${smsNotif ? 'bg-primary' : 'bg-outline-variant'}`}
+                  >
+                    <div className={`w-4 h-4 bg-white rounded-full absolute top-1 shadow-sm transition-all duration-300 ${smsNotif ? 'right-1' : 'left-1'}`}></div>
+                  </button>
                 </div>
               </div>
             </div>
           </div>
-        </main>
-      </div>
-    </div>
+    </Layout>
   );
 }

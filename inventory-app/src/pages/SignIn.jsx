@@ -80,7 +80,7 @@ export default function SignIn() {
                 <label className="text-sm text-on-surface-variant font-medium" htmlFor="remember">Remember this device</label>
               </div>
 
-              <Link to="/warehouse" className="w-full bg-primary hover:bg-on-secondary-fixed-variant text-on-primary font-headline font-bold py-4 rounded-lg transition-all transform hover:-translate-y-0.5 ambient-shadow flex items-center justify-center gap-2">
+              <Link to="/dashboard" className="w-full bg-primary hover:bg-on-secondary-fixed-variant text-on-primary font-headline font-bold py-4 rounded-lg transition-all transform hover:-translate-y-0.5 ambient-shadow flex items-center justify-center gap-2">
                 <span>Sign In</span>
                 <span className="material-symbols-outlined text-sm">arrow_forward</span>
               </Link>
@@ -146,7 +146,7 @@ export default function SignIn() {
                   </select>
                 </div>
                 <div className="pt-4">
-                  <Link to="/warehouse" className="block text-center w-full bg-secondary text-on-secondary font-headline font-bold py-4 rounded-lg hover:bg-on-secondary-fixed-variant transition-all ambient-shadow">
+                  <Link to="/dashboard" className="block text-center w-full bg-secondary text-on-secondary font-headline font-bold py-4 rounded-lg hover:bg-on-secondary-fixed-variant transition-all ambient-shadow">
                     Create Workspace
                   </Link>
                   <p className="text-center text-[11px] text-on-surface-variant mt-4 px-6">
