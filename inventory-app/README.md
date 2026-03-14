@@ -1,16 +1,48 @@
-# React + Vite
+# 🎨 CoreInventory Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The frontend for the **CoreInventory** system is a modern, responsive web application built with **React**, **Vite**, and **Tailwind CSS**. It follows a minimal, "curated ledger" aesthetic to provide warehouse operators with a high-end, efficient workspace.
 
-Currently, two official plugins are available:
+## 🚀 Key Modules
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **📊 Dashboard**: Real-time overview of warehouse health and recent activities.
+- **⚡ Quick Inbound**: High-speed shipment receiving and stock allocation.
+- **🔍 Inventory Audit**: Tools for stock counting and discrepancy resolution.
+- **📦 Stock Management**: zone-based stock tracking with localized Rupee (₹) valuation.
+- **🔄 Internal Transfers**: Managing product movement between warehouse locations.
+- **📜 Move History**: A detailed, read-only audit trail of every system action.
+- **🏠 Minimal Landing**: A sophisticated entrance with interactive feature highlights.
 
-## React Compiler
+## 🛠️ Technology Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **React 19**: Modern life-cycle management and state handling.
+- **Vite 6**: Lightning-fast build pipeline.
+- **Tailwind CSS 4**: Powerful utility-first styling with custom theme tokens.
+- **React Router 7**: Sophisticated routing for complex app hierarchies.
+- **Axios**: Promised-based HTTP client for robust API interactions.
+- **Material Symbols**: Google's modern icon set for a clean, visual language.
 
-## Expanding the ESLint configuration
+## 📦 Getting Started
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1.  **Install Dependencies**:
+    ```bash
+    npm install
+    ```
+
+2.  **Environment Configuration**:
+    Ensure the backend is running at `http://localhost:8000` or update the `baseURL` in `src/api.js`.
+
+3.  **Launch Development Server**:
+    ```bash
+    npm run dev
+    ```
+    Access the app at `http://localhost:5173`.
+
+## 🎨 Design System
+
+The application uses a custom-tailored design system defined in `src/index.css`, featuring:
+- **Glassmorphism**: Subtle translucency in headers and sidebars.
+- **Ambient Lighting**: Soft background glows to reduce eye strain.
+- **Responsive Mastery**: Fully optimized for both desktop management and on-floor mobile scanning.
+
+---
+Built by **Dhruv Patva**, **Yash Sharma**, **Sanidhya Roy**, and **Vishwa Singh**.
