@@ -33,7 +33,7 @@ export default function SignUp() {
     setIsLoading(false);
     
     if (result.success) {
-      navigate('/warehouse');
+      navigate('/signin');
     } else {
       setError(result.error || 'Failed to sign up. Please try again.');
     }
