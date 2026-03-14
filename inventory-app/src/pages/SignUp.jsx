@@ -51,8 +51,8 @@ export default function SignUp() {
           
           <div className="relative z-10">
             <div className="flex items-center gap-3 mb-12">
-              <div className="w-12 h-12 bg-white flex items-center justify-center rounded-xl shadow-lg">
-                <span className="material-symbols-outlined text-primary" style={{fontVariationSettings: "'FILL' 1"}}>inventory_2</span>
+              <div className="w-12 h-12 flex items-center justify-center rounded-xl overflow-hidden shadow-lg">
+                <img src="/logo.png" alt="Logo" className="w-full h-full object-contain" />
               </div>
               <div>
                 <h1 className="font-headline text-2xl font-extrabold text-white tracking-tight">Inventory Pro</h1>
@@ -87,8 +87,8 @@ export default function SignUp() {
           
           {/* Mobile Header */}
           <div className="lg:hidden flex items-center gap-3 mb-8">
-            <div className="w-10 h-10 editorial-gradient flex items-center justify-center rounded-lg shadow-md">
-              <span className="material-symbols-outlined text-white text-xl">inventory_2</span>
+            <div className="w-10 h-10 flex items-center justify-center rounded-lg shadow-md overflow-hidden">
+              <img src="/logo.png" alt="Logo" className="w-full h-full object-contain" />
             </div>
             <h1 className="font-headline text-xl font-bold text-on-surface">Inventory Pro</h1>
           </div>

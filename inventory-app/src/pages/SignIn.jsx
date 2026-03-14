@@ -47,8 +47,8 @@ export default function SignIn() {
         <div className="hidden lg:flex lg:col-span-5 bg-surface-container-low p-12 flex-col justify-between relative overflow-hidden">
           <div className="relative z-10">
             <div className="flex items-center gap-3 mb-12">
-              <div className="w-10 h-10 brand-gradient rounded flex items-center justify-center">
-                <span className="material-symbols-outlined text-on-primary" style={{ fontVariationSettings: "'FILL' 1" }}>inventory_2</span>
+              <div className="w-10 h-10 rounded flex items-center justify-center overflow-hidden">
+                <img src="/logo.png" alt="Logo" className="w-full h-full object-contain" />
               </div>
               <span className="font-headline font-extrabold text-xl tracking-tight text-on-surface">Inventory Pro</span>
             </div>

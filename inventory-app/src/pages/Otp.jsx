@@ -14,8 +14,8 @@ export default function Otp() {
     <div className="bg-surface text-on-surface min-h-screen flex flex-col items-center justify-center p-6 selection:bg-primary-container selection:text-on-primary-container">
       <main className="w-full max-w-lg">
         <div className="flex flex-col items-center mb-12">
-          <div className="brand-gradient w-16 h-16 rounded-xl flex items-center justify-center mb-6 shadow-xl shadow-primary/10">
-            <span className="material-symbols-outlined text-on-primary text-4xl" style={{fontVariationSettings: "'FILL' 1"}}>inventory_2</span>
+          <div className="w-16 h-16 rounded-xl flex items-center justify-center mb-6 shadow-xl shadow-primary/10 overflow-hidden">
+            <img src="/logo.png" alt="Logo" className="w-full h-full object-contain" />
           </div>
           <h1 className="font-headline text-3xl font-extrabold tracking-tight text-on-surface mb-2">Inventory Pro</h1>
           <p className="text-on-surface-variant font-label text-sm uppercase tracking-widest">Warehouse Management</p>

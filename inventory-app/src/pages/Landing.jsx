@@ -8,8 +8,8 @@ export default function Landing() {
       <nav className="fixed top-0 w-full z-50 glass-panel border-b border-outline-variant/15">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 brand-gradient rounded-xl flex items-center justify-center text-on-primary">
-              <span className="material-symbols-outlined">inventory_2</span>
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center overflow-hidden">
+              <img src="/logo.png" alt="Logo" className="w-full h-full object-contain" />
             </div>
             <span className="font-headline font-extrabold text-xl tracking-tight text-on-surface">Inventory System</span>
           </div>
@@ -225,8 +225,8 @@ export default function Landing() {
           <div className="grid md:grid-cols-4 gap-12 mb-16">
             <div className="col-span-1 md:col-span-1">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-8 h-8 brand-gradient rounded-lg flex items-center justify-center text-on-primary">
-                  <span className="material-symbols-outlined text-sm">inventory_2</span>
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center overflow-hidden">
+                  <img src="/logo.png" alt="Logo" className="w-full h-full object-contain" />
                 </div>
                 <span className="font-headline font-bold text-lg tracking-tight text-on-surface">Inventory Pro</span>
               </div>

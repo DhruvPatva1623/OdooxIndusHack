@@ -10,8 +10,8 @@ export default function ResetPassword() {
 
       <main className="w-full max-w-lg z-10">
         <div className="flex flex-col items-center mb-12">
-          <div className="w-16 h-16 bg-primary rounded-xl flex items-center justify-center mb-4 shadow-lg">
-            <span className="material-symbols-outlined text-on-primary text-4xl">inventory_2</span>
+          <div className="w-16 h-16 rounded-xl flex items-center justify-center mb-4 shadow-lg overflow-hidden">
+            <img src="/logo.png" alt="Logo" className="w-full h-full object-contain" />
           </div>
           <h1 className="text-2xl font-extrabold text-on-surface tracking-tight">Inventory Pro</h1>
           <p className="text-on-surface-variant font-medium text-sm">Warehouse Management</p>

@@ -39,8 +39,8 @@ export default function Layout({ children }) {
       <aside className="w-64 bg-surface-container-low flex flex-col border-r border-outline-variant/15 sticky top-0 h-screen overflow-y-auto shrink-0">
         <div className="p-8 flex flex-col gap-2">
           <Link to="/dashboard" className="flex items-center gap-3">
-            <div className="w-10 h-10 brand-gradient rounded-lg flex items-center justify-center text-on-primary">
-              <span className="material-symbols-outlined">inventory_2</span>
+            <div className="w-10 h-10 rounded-lg flex items-center justify-center overflow-hidden">
+              <img src="/logo.png" alt="Logo" className="w-full h-full object-contain" />
             </div>
             <div>
               <h1 className="text-on-surface font-extrabold text-lg leading-tight">Inventory Pro</h1>
