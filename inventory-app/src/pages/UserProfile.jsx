@@ -1,182 +1,128 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Layout from '../components/Layout';
 import { showToast } from '../components/Toast';
+import api from '../api';
 
 export default function UserProfile() {
-  const [emailNotif, setEmailNotif] = useState(true);
-  const [smsNotif, setSmsNotif] = useState(false);
+  const [user, setUser] = useState({ full_name: '', email: '', role: '', last_login_at: '' });
+  const [form, setForm] = useState({ full_name: '', email: '' });
+  const [isSaving, setIsSaving] = useState(false);
 
-  function handleSave(e) {
+  useEffect(() => {
+    const loadProfile = async () => {
+      try {
+        const res = await api.get('/auth/me');
+        const data = res.data;
+        setUser(data);
+        setForm({ full_name: data.full_name || '', email: data.email || '' });
+      } catch (error) {
+        showToast({ title: 'Profile Error', message: 'Could not fetch profile. Please sign in again.', type: 'error' });
+      }
+    };
+    loadProfile();
+  }, []);
+
+  const handleSave = async (e) => {
     e.preventDefault();
-    showToast({ title: 'Profile Saved', message: 'Your personal information has been updated successfully.', type: 'success' });
-  }
+    setIsSaving(true);
+    try {
+      const res = await api.put('/auth/profile', { full_name: form.full_name, email: form.email });
+      setUser(res.data);
+      setForm({ full_name: res.data.full_name, email: res.data.email });
+      showToast({ title: 'Saved', message: 'Your profile changes were saved.', type: 'success' });
+    } catch (err) {
+      showToast({ title: 'Save Failed', message: err.response?.data?.detail || 'Unable to save profile.', type: 'error' });
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
-  function handleCancel() {
-    showToast({ title: 'Changes Discarded', message: 'Your edits were not saved.', type: 'info' });
-  }
+  const handleCancel = () => {
+    setForm({ full_name: user.full_name || '', email: user.email || '' });
+    showToast({ title: 'Cancelled', message: 'Your edits were discarded.', type: 'info' });
+  };
 
-  function handleSecurity() {
-    showToast({ title: 'Account Security', message: '2FA is active. Last login: Today 10:45 AM from Chrome / Windows.', type: 'info', duration: 5000 });
-  }
+  const handleEditPhoto = () => {
+    showToast({ title: 'Upload Photo', message: 'Photo upload coming soon.', type: 'info' });
+  };
 
-  function handleEditPhoto() {
-    showToast({ title: 'Upload Photo', message: 'Photo upload panel coming soon. Max file size: 5MB (JPG, PNG).', type: 'info' });
-  }
   return (
     <Layout>
       <div className="mb-12">
-            <h2 className="font-headline text-4xl font-extrabold tracking-tight text-on-surface mb-2">My Profile</h2>
-            <p className="text-on-surface-variant">Update your photo and personal details here to manage your warehouse access.</p>
-          </div>
+        <h2 className="font-headline text-4xl font-extrabold tracking-tight text-on-surface mb-2">My Profile</h2>
+        <p className="text-on-surface-variant">Update your profile and contact details.</p>
+      </div>
 
-          <div className="grid grid-cols-12 gap-6">
-            {/* Profile Picture Card */}
-            <div className="col-span-12 lg:col-span-4 space-y-6">
-              <div className="bg-surface-container-lowest rounded-xl p-8 flex flex-col items-center text-center shadow-[0px_10px_40px_rgba(115,69,182,0.06)] relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -translate-y-12 translate-x-12"></div>
-                
-                <div className="relative mb-6">
-                  <div className="w-40 h-40 rounded-full overflow-hidden ring-4 ring-primary-container p-1">
-                    <img alt="User Portrait" className="w-full h-full rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQVwRWPmUZoINbYP5yElW57GsFgTze1f8NCSdPE_TMxMb-lQYmiT0RMocwBku3Tn4yrhcuk6XFh-OIarDRC5vol9Ursm6bIpcStTYvBwkTSbJBQGc4XvAAYckLBb2eV7xuO9oMzwek73xrxQZM405JmLQ2bGUqFNiEHXrCoppsgaJ0mDOWrpdrXHxUnVSwu1-wEeYE942Fb1jUsebfT0N3HnGa2LhyY7aD4QS_ZEYTZMZS4ZZLC_m-lEfsLcXAjwIbkkFdx0_aOPF3"/>
-                  </div>
-                  <button onClick={handleEditPhoto} className="absolute bottom-2 right-2 bg-primary text-on-primary p-2 rounded-full shadow-lg hover:bg-primary-fixed-dim transition-colors group">
-                    <span className="material-symbols-outlined text-sm leading-none" style={{fontVariationSettings: "'FILL' 1"}}>edit</span>
-                  </button>
-                </div>
-                
-                <h3 className="font-headline text-2xl font-bold text-on-surface">Alex Rivera</h3>
-                <p className="text-on-surface-variant font-medium mb-6">Inventory Specialist • Warehouse A</p>
-                
-                <div className="w-full pt-6 border-t border-outline-variant/10 flex justify-center gap-4">
-                  <div className="text-center">
-                    <p className="text-xl font-bold text-primary">124</p>
-                    <p className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Transfers</p>
-                  </div>
-                  <div className="w-px h-8 bg-outline-variant/20"></div>
-                  <div className="text-center">
-                    <p className="text-xl font-bold text-primary">12</p>
-                    <p className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Workshops</p>
-                  </div>
-                </div>
+      <div className="grid grid-cols-12 gap-6">
+        <div className="col-span-12 lg:col-span-4 space-y-6">
+          <div className="bg-surface-container-lowest rounded-xl p-8 flex flex-col items-center text-center shadow-[0px_10px_40px_rgba(115,69,182,0.06)] relative overflow-hidden">
+            <div className="relative mb-6">
+              <div className="w-40 h-40 rounded-full overflow-hidden ring-4 ring-primary-container p-1">
+                <img alt="User Portrait" className="w-full h-full rounded-full object-cover" src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?auto=format&q=75&fit=crop&w=400" />
               </div>
-
-              <div className="bg-primary-container/20 rounded-xl p-6 border border-primary/5">
-                <div className="flex items-center gap-3 mb-3 text-on-primary-container">
-                  <span className="material-symbols-outlined" style={{fontVariationSettings: "'FILL' 1"}}>verified_user</span>
-                  <p className="font-bold">Account Security</p>
-                </div>
-                <p className="text-sm text-on-primary-container/70 mb-4 leading-relaxed">Your account is secured with two-factor authentication.</p>
-                <button onClick={handleSecurity} className="w-full py-2 px-4 rounded-lg bg-white text-primary text-xs font-bold uppercase tracking-wider hover:bg-primary-container transition-colors">Manage Security</button>
-              </div>
+              <button onClick={handleEditPhoto} className="absolute bottom-2 right-2 bg-primary text-on-primary p-2 rounded-full shadow-lg hover:bg-primary-fixed-dim transition-colors group">
+                <span className="material-symbols-outlined text-sm leading-none" style={{ fontVariationSettings: "'FILL' 1" }}>edit</span>
+              </button>
             </div>
-
-            {/* Form Section */}
-            <div className="col-span-12 lg:col-span-8">
-              <div className="bg-surface-container-lowest rounded-xl p-10 shadow-[0px_10px_40px_rgba(115,69,182,0.06)]">
-                <div className="flex items-center justify-between mb-10">
-                  <div>
-                    <h4 className="font-headline text-xl font-bold text-on-surface">Personal Information</h4>
-                    <p className="text-on-surface-variant text-sm">Update your contact information and identity.</p>
-                  </div>
-                  <span className="material-symbols-outlined text-outline-variant">info</span>
-                </div>
-                
-                <form className="space-y-8" onSubmit={handleSave}>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div className="space-y-2">
-                      <label className="text-xs font-bold text-on-surface-variant uppercase tracking-widest ml-1">Full Name</label>
-                      <div className="relative group">
-                        <input className="w-full no-border-input py-4 px-4 text-on-surface focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all" type="text" defaultValue="Alex Rivera" />
-                        <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-primary group-focus-within:w-full transition-all duration-300"></div>
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-xs font-bold text-on-surface-variant uppercase tracking-widest ml-1">Job Role</label>
-                      <div className="relative group">
-                        <input className="w-full no-border-input py-4 px-4 text-on-surface focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all" type="text" defaultValue="Logistics Manager" />
-                        <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-primary group-focus-within:w-full transition-all duration-300"></div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div className="space-y-2">
-                      <label className="text-xs font-bold text-on-surface-variant uppercase tracking-widest ml-1">Email Address</label>
-                      <div className="relative group">
-                        <input className="w-full no-border-input py-4 px-4 text-on-surface focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all" type="email" defaultValue="alex.rivera@inventorypro.com" />
-                        <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-primary group-focus-within:w-full transition-all duration-300"></div>
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-xs font-bold text-on-surface-variant uppercase tracking-widest ml-1">Phone Number</label>
-                      <div className="relative group">
-                        <input className="w-full no-border-input py-4 px-4 text-on-surface focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all" type="tel" defaultValue="+1 (555) 892-0291" />
-                        <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-primary group-focus-within:w-full transition-all duration-300"></div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold text-on-surface-variant uppercase tracking-widest ml-1">Bio / Notes</label>
-                    <div className="relative group">
-                      <textarea className="w-full no-border-input py-4 px-4 text-on-surface focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all resize-none" rows="4" defaultValue="Managing the West Wing Logistics hub since 2021. Specialized in pharmaceutical inventory controls and temperature-sensitive storage protocols."></textarea>
-                      <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-primary group-focus-within:w-full transition-all duration-300"></div>
-                    </div>
-                  </div>
-
-                  <div className="pt-6 border-t border-outline-variant/10 flex items-center justify-between">
-                    <div className="flex items-center gap-2 text-on-surface-variant">
-                      <span className="material-symbols-outlined text-sm">update</span>
-                      <span className="text-xs italic">Last updated 2 days ago</span>
-                    </div>
-                    <div className="flex gap-4">
-                      <button onClick={handleCancel} className="px-6 py-3 rounded-lg text-primary font-bold hover:bg-primary/5 transition-colors" type="button">Cancel</button>
-                      <button className="bg-gradient-to-br from-primary to-secondary px-10 py-3 rounded-lg text-on-primary font-bold shadow-lg hover:shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all" type="submit" onClick={handleSave}>Save Changes</button>
-                    </div>
-                  </div>
-                </form>
+            <h3 className="font-headline text-2xl font-bold text-on-surface">{user.full_name || 'Your Name'}</h3>
+            <p className="text-on-surface-variant font-medium mb-6">{user.role || 'Warehouse Staff'}</p>
+            <div className="w-full pt-6 border-t border-outline-variant/10 flex justify-center gap-4">
+              <div className="text-center">
+                <p className="text-xl font-bold text-primary">124</p>
+                <p className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Transfers</p>
               </div>
-
-              {/* Notification Settings Row */}
-              <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-surface-container-low rounded-xl p-6 flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-primary shadow-sm">
-                      <span className="material-symbols-outlined">mail</span>
-                    </div>
-                    <div>
-                      <p className="font-bold text-on-surface">Email Notifications</p>
-                      <p className="text-xs text-on-surface-variant">Receive weekly inventory reports</p>
-                    </div>
-                  </div>
-                  <button
-                    onClick={() => { setEmailNotif(p => !p); showToast({ title: 'Email Notifications', message: emailNotif ? 'Email notifications disabled.' : 'Email notifications enabled.', type: emailNotif ? 'info' : 'success' }); }}
-                    className={`w-12 h-6 rounded-full relative p-1 cursor-pointer transition-colors duration-300 ${emailNotif ? 'bg-primary' : 'bg-outline-variant'}`}
-                  >
-                    <div className={`w-4 h-4 bg-white rounded-full absolute top-1 transition-all duration-300 ${emailNotif ? 'right-1' : 'left-1'}`}></div>
-                  </button>
-                </div>
-
-                <div className="bg-surface-container-low rounded-xl p-6 flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-tertiary shadow-sm">
-                      <span className="material-symbols-outlined">sms</span>
-                    </div>
-                    <div>
-                      <p className="font-bold text-on-surface">SMS Alerts</p>
-                      <p className="text-xs text-on-surface-variant">Low stock critical alerts</p>
-                    </div>
-                  </div>
-                  <button
-                    onClick={() => { setSmsNotif(p => !p); showToast({ title: 'SMS Alerts', message: smsNotif ? 'SMS alerts disabled.' : 'SMS alerts enabled for critical low-stock events.', type: smsNotif ? 'info' : 'success' }); }}
-                    className={`w-12 h-6 rounded-full relative p-1 cursor-pointer transition-colors duration-300 ${smsNotif ? 'bg-primary' : 'bg-outline-variant'}`}
-                  >
-                    <div className={`w-4 h-4 bg-white rounded-full absolute top-1 shadow-sm transition-all duration-300 ${smsNotif ? 'right-1' : 'left-1'}`}></div>
-                  </button>
-                </div>
+              <div className="w-px h-8 bg-outline-variant/20"></div>
+              <div className="text-center">
+                <p className="text-xl font-bold text-primary">12</p>
+                <p className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Workshops</p>
               </div>
             </div>
           </div>
+        </div>
+
+        <div className="col-span-12 lg:col-span-8">
+          <div className="bg-surface-container-lowest rounded-xl p-10 shadow-[0px_10px_40px_rgba(115,69,182,0.06)]">
+            <div className="flex items-center justify-between mb-8">
+              <div>
+                <h4 className="font-headline text-xl font-bold text-on-surface">Personal Information</h4>
+                <p className="text-on-surface-variant text-sm">Update your details and save permanently.</p>
+              </div>
+              <span className="material-symbols-outlined text-outline-variant">info</span>
+            </div>
+
+            <form className="space-y-6" onSubmit={handleSave}>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="text-xs font-bold text-on-surface-variant uppercase tracking-widest ml-1">Full Name</label>
+                  <input
+                    className="w-full no-border-input py-3 px-3 rounded-lg border border-outline-variant"
+                    value={form.full_name}
+                    onChange={(e) => setForm((p) => ({ ...p, full_name: e.target.value }))}
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-bold text-on-surface-variant uppercase tracking-widest ml-1">Email Address</label>
+                  <input
+                    className="w-full no-border-input py-3 px-3 rounded-lg border border-outline-variant"
+                    type="email"
+                    value={form.email}
+                    onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))}
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center justify-end gap-3 pt-4 border-t border-outline-variant/20">
+                <button className="px-4 py-2 rounded-lg border border-outline-variant text-sm font-medium" type="button" onClick={handleCancel}>Cancel</button>
+                <button className="px-4 py-2 rounded-lg bg-primary text-white text-sm font-medium" type="submit" disabled={isSaving}>
+                  {isSaving ? 'Saving...' : 'Save Changes'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
     </Layout>
   );
 }

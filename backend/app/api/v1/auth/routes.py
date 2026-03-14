@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from app.core import security
 from app.db.session import get_db
 from app.models.user import User
-from app.schemas.user import UserCreate, UserLogin, TokenResponse
+from app.schemas.user import UserCreate, UserLogin, UserUpdate, UserResponse, TokenResponse
 from app.core.dependencies import get_current_user
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
@@ -35,6 +35,24 @@ def signup(payload: UserCreate, db: Session = Depends(get_db)):
         "token_type": "bearer",
         "user": {"id": user.id, "email": user.email, "full_name": user.full_name, "role": user.role}
     }
+
+
+@router.get("/me", response_model=UserResponse)
+def read_current_user(current_user: User = Depends(get_current_user)):
+    return current_user
+
+
+@router.put("/profile", response_model=UserResponse)
+def update_profile(payload: UserUpdate, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    # Email must stay unique
+    if payload.email.lower() != current_user.email and db.query(User).filter(User.email == payload.email.lower()).first():
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email already in use.")
+
+    current_user.full_name = payload.full_name
+    current_user.email = payload.email.lower()
+    db.commit()
+    db.refresh(current_user)
+    return current_user
 
 
 @router.post("/login", response_model=TokenResponse)

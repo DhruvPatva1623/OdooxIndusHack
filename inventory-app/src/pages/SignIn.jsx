@@ -127,10 +127,11 @@ export default function SignIn() {
                 <label className="text-sm text-on-surface-variant font-medium" htmlFor="remember">Remember this device</label>
               </div>
 
-              <Link to="/dashboard" className="w-full bg-primary hover:bg-on-secondary-fixed-variant text-on-primary font-headline font-bold py-4 rounded-lg transition-all transform hover:-translate-y-0.5 ambient-shadow flex items-center justify-center gap-2">
-                <span>Sign In</span>
+              <button type="submit" className="w-full bg-primary hover:bg-on-secondary-fixed-variant text-on-primary font-headline font-bold py-4 rounded-lg transition-all transform hover:-translate-y-0.5 ambient-shadow flex items-center justify-center gap-2">
+                {isLoading ? 'Signing In...' : 'Sign In'}
                 <span className="material-symbols-outlined text-sm">arrow_forward</span>
-              </Link>
+              </button>
+              {error && <p className="mt-2 text-sm text-error">{error}</p>}
             </form>
 
             <div className="mt-8 pt-8 border-t border-surface-container-high text-center">

@@ -6,6 +6,9 @@ from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
 from app.core.config import settings
 from app.api.v1.router import api_router
+from app.models import location as _location
+from app.models import warehouse as _warehouse
+from app.models import user as _user
 from fastapi import Request
 from fastapi.responses import JSONResponse
 
@@ -13,6 +16,10 @@ class InvalidStateError(Exception):
     pass
 
 async def global_exception_handler(request: Request, exc: Exception):
+    import traceback
+    err = ''.join(traceback.format_exception(type(exc), exc, exc.__traceback__))
+    with open('error.log', 'a', encoding='utf-8') as f:
+        f.write(err + '\n' + '='*80 + '\n')
     return JSONResponse(
         status_code=500,
         content={"error": {"code": "INTERNAL_ERROR", "message": "An unexpected error occurred."}}

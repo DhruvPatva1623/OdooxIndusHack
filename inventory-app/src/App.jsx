@@ -21,27 +21,30 @@ import UserProfile from './pages/UserProfile';
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        {/* Public / Auth */}
-        <Route path="/" element={<Landing />} />
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/otp" element={<Otp />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
+      <AuthProvider>
+        <Routes>
+          {/* Public / Auth */}
+          <Route path="/" element={<Landing />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/otp" element={<Otp />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
 
-        {/* App Routes (with Layout sidebar) */}
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/receipts" element={<Receipts />} />
-        <Route path="/deliveries" element={<DeliveryOrders />} />
-        <Route path="/transfers" element={<InternalTransfers />} />
-        <Route path="/adjustments" element={<StockAdjustments />} />
-        <Route path="/history" element={<MoveHistory />} />
-        <Route path="/warehouse" element={<Warehouse />} />
-        <Route path="/stock-levels" element={<StockLevels />} />
-        <Route path="/profile" element={<UserProfile />} />
-      </Routes>
+          <Route element={<ProtectedRoute />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/products" element={<Products />} />
+            <Route path="/receipts" element={<Receipts />} />
+            <Route path="/deliveries" element={<DeliveryOrders />} />
+            <Route path="/transfers" element={<InternalTransfers />} />
+            <Route path="/adjustments" element={<StockAdjustments />} />
+            <Route path="/history" element={<MoveHistory />} />
+            <Route path="/warehouse" element={<Warehouse />} />
+            <Route path="/stock-levels" element={<StockLevels />} />
+            <Route path="/profile" element={<UserProfile />} />
+          </Route>
+        </Routes>
+      </AuthProvider>
     </BrowserRouter>
   );
 }

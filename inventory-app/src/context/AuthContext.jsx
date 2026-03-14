@@ -9,33 +9,46 @@ export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    // Check if user is logged in on mount
-    const token = localStorage.getItem('access_token');
-    if (token) {
-      // Since we don't have a /me endpoint right now, we can decode the JWT
-      // but for simplicity we will just assume logged in if token exists.
-      // Ideally we would fetch user details here.
-      setCurrentUser({ token });
+  const fetchCurrentUser = async () => {
+    try {
+      const response = await api.get('/auth/me');
+      setCurrentUser(response.data);
+      return response.data;
+    } catch (error) {
+      setCurrentUser(null);
+      return null;
     }
-    setLoading(false);
+  };
+
+  useEffect(() => {
+    const init = async () => {
+      const token = localStorage.getItem('access_token');
+      if (token) {
+        await fetchCurrentUser();
+      }
+      setLoading(false);
+    };
+    init();
   }, []);
 
   const login = async (email, password) => {
     try {
-      // Assuming FastAPI expects standard JSON for this endpoint based on our schemas
       const response = await api.post('/auth/login', { email, password });
       const { access_token, refresh_token } = response.data;
-      
       localStorage.setItem('access_token', access_token);
       localStorage.setItem('refresh_token', refresh_token);
-      
-      setCurrentUser({ email, token: access_token });
+      const user = await fetchCurrentUser();
+      if (!user) {
+        throw new Error('Could not load user profile');
+      }
       return { success: true };
     } catch (error) {
-      return { 
-        success: false, 
-        error: error.response?.data?.error?.message || 'Failed to login' 
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('refresh_token');
+      setCurrentUser(null);
+      return {
+        success: false,
+        error: error.response?.data?.error?.message || error.message || 'Failed to login',
       };
     }
   };
@@ -43,22 +56,20 @@ export const AuthProvider = ({ children }) => {
   const signup = async (userData) => {
     try {
       await api.post('/auth/signup', userData);
-      // Auto-login after signup
       return await login(userData.email, userData.password);
     } catch (error) {
-      return { 
-        success: false, 
-        error: error.response?.data?.error?.message || 'Failed to sign up' 
+      return {
+        success: false,
+        error: error.response?.data?.error?.message || error.message || 'Failed to sign up',
       };
     }
   };
 
   const logout = async () => {
     try {
-      // Optional: Call logout endpoint to invalidate refresh token on server
       await api.post('/auth/logout');
     } catch (e) {
-      console.error("Logout API failed", e);
+      console.error('Logout API failed', e);
     } finally {
       localStorage.removeItem('access_token');
       localStorage.removeItem('refresh_token');
@@ -71,7 +82,8 @@ export const AuthProvider = ({ children }) => {
     login,
     signup,
     logout,
-    loading
+    loading,
+    refreshUser: fetchCurrentUser,
   };
 
   return (

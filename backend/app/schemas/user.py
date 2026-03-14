@@ -1,3 +1,4 @@
+from datetime import datetime
 from pydantic import BaseModel, EmailStr, field_validator
 import re
 
@@ -19,6 +20,24 @@ class UserCreate(BaseModel):
 class UserLogin(BaseModel):
     email: EmailStr
     password: str
+
+class UserUpdate(BaseModel):
+    full_name: str
+    email: EmailStr
+
+class UserResponse(BaseModel):
+    id: int
+    full_name: str
+    email: EmailStr
+    role: str
+    is_active: bool
+    token_version: int
+    last_login_at: datetime | None = None
+    created_at: datetime | None = None
+    updated_at: datetime | None = None
+
+    class Config:
+        orm_mode = True
 
 class TokenResponse(BaseModel):
     access_token: str
