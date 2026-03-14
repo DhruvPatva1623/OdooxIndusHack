@@ -2,8 +2,12 @@ import React, { useState, useEffect } from 'react';
 import Layout from '../components/Layout';
 import { showToast } from '../components/Toast';
 import api from '../api';
+import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 export default function UserProfile() {
+  const { logout } = useAuth();
+  const navigate = useNavigate();
   const [user, setUser] = useState({ full_name: '', email: '', role: '', last_login_at: '' });
   const [form, setForm] = useState({ full_name: '', email: '' });
   const [isSaving, setIsSaving] = useState(false);
@@ -46,6 +50,12 @@ export default function UserProfile() {
     showToast({ title: 'Upload Photo', message: 'Photo upload coming soon.', type: 'info' });
   };
 
+  const handleLogout = async () => {
+    await logout();
+    showToast({ title: 'Logged Out', message: 'You have been successfully signed out.', type: 'success' });
+    navigate('/signin');
+  };
+
   return (
     <Layout>
       <div className="mb-12">
@@ -66,7 +76,7 @@ export default function UserProfile() {
             </div>
             <h3 className="font-headline text-2xl font-bold text-on-surface">{user.full_name || 'Your Name'}</h3>
             <p className="text-on-surface-variant font-medium mb-6">{user.role || 'Warehouse Staff'}</p>
-            <div className="w-full pt-6 border-t border-outline-variant/10 flex justify-center gap-4">
+            <div className="w-full pt-6 border-t border-outline-variant/10 flex justify-center gap-4 mb-8">
               <div className="text-center">
                 <p className="text-xl font-bold text-primary">124</p>
                 <p className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Transfers</p>
@@ -77,6 +87,14 @@ export default function UserProfile() {
                 <p className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Workshops</p>
               </div>
             </div>
+            
+            <button 
+              onClick={handleLogout}
+              className="w-full py-3 rounded-xl border border-error/30 text-error font-bold text-sm hover:bg-error/5 transition-colors flex items-center justify-center gap-2"
+            >
+              <span className="material-symbols-outlined text-sm">logout</span>
+              Sign Out
+            </button>
           </div>
         </div>
 
