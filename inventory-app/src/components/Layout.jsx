@@ -1,10 +1,12 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Toast, useToasts } from './Toast';
+import { useAuth } from '../context/AuthContext';
 
 export default function Layout({ children }) {
   const location = useLocation();
   const { toasts, removeToast } = useToasts();
+  const { currentUser } = useAuth();
 
   const navGroups = [
     {
@@ -34,6 +36,8 @@ export default function Layout({ children }) {
       ]
     },
   ];
+
+  const userAvatar = "https://images.unsplash.com/photo-1502685104226-ee32379fefbe?auto=format&q=75&fit=crop&w=400";
 
   return (
     <div className="bg-background text-on-surface flex min-h-screen">
@@ -72,10 +76,10 @@ export default function Layout({ children }) {
 
         <div className="p-6">
           <Link to="/profile" className="bg-surface-container-highest p-4 rounded-2xl flex items-center gap-3 hover:bg-outline-variant/30 transition-colors">
-            <img className="w-10 h-10 rounded-full object-cover" alt="User Profile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXmb7BWLlzbo6Eoko_XLY3Inrnh8qff43CDTMEeiffqS7WEDDiQztwOt9f5Yc3lvYRnAIv1oZ4eUiFuFGGYQVcqbW9kjK-5IAKRryfRbt259Qh0z8cSao317K7vATLqL2OZpq0zHETewxbENI8Xsa2jeyusdr6zIglswcYqgFUvBaOH8XVCdyAOeji4ugtH_NXQ0jrGfXRLGd24bDn_T4oQruGqhCfNgr7hMmkCF35dwKO1RdADiefO7SqWGpUJTUilLYrnYw3WGue"/>
+            <img className="w-10 h-10 rounded-full object-cover" alt="User Profile" src={userAvatar}/>
             <div className="overflow-hidden">
-              <p className="text-sm font-bold truncate">Alex Rivera</p>
-              <p className="text-[10px] text-on-surface-variant uppercase tracking-wider">Manager</p>
+              <p className="text-sm font-bold truncate">{currentUser?.full_name || 'Loading...'}</p>
+              <p className="text-[10px] text-on-surface-variant uppercase tracking-wider">{currentUser?.role || 'Staff'}</p>
             </div>
           </Link>
         </div>
@@ -100,14 +104,21 @@ export default function Layout({ children }) {
             </div>
             <div className="w-px h-6 bg-outline-variant opacity-30"></div>
             <Link to="/profile">
-              <img className="w-9 h-9 rounded-full object-cover border-2 border-primary-container hover:border-primary transition-colors" alt="User Avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfhDogpRpal3c3gBFfIg9bJuYpslsFOyek0BuWfRk2Cjqaqy0FTkJEdO0MMWogtFXxqd657WZTdQnkGJ9MV4788CLVa_uEJJUcIzABooqY2-LQTGYnSgHrIfRPKIVT_NPRgYkqmOKkzO_Z8a7jjc1qZj14Vdt0nAf7Q4uEOU_wmf7l7oUZzsfTifxW24rufxKvVibvi21q5LNreOzMRlxpBseF5Und0GTmzcQ7El5mcOd3j0oBfJAgcsZstl7YeYYyjE96DbXpj48-"/>
+              <img className="w-9 h-9 rounded-full object-cover border-2 border-primary-container hover:border-primary transition-colors" alt="User Avatar" src={userAvatar}/>
             </Link>
           </div>
         </header>
 
         {/* Page Canvas */}
-        <div className="p-8 pb-24 space-y-8 max-w-7xl mx-auto w-full">
-          {children}
+        <div className="p-8 pb-12 space-y-8 max-w-7xl mx-auto w-full flex flex-col min-h-[calc(100vh-80px)]">
+          <div className="flex-1">
+            {children}
+          </div>
+          <div className="pt-8 mt-auto border-t border-outline-variant/10 text-center">
+            <p className="text-[9px] font-bold text-on-surface-variant/30 uppercase tracking-[0.1em]">
+              Dhruv Patva | Yash Sharma | Sanidhya Roy | Vishwa Singh
+            </p>
+          </div>
         </div>
       </main>
 

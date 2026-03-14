@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 export default function SignIn() {
-  const [showSignup, setShowSignup] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -166,9 +165,9 @@ export default function SignIn() {
             <div className="mt-8 pt-8 border-t border-surface-container-high text-center">
               <p className="text-on-surface-variant text-sm font-medium">
                 New to the system?
-                <button className="ml-1 text-primary font-bold hover:underline" onClick={() => setShowSignup(true)}>
+                <Link className="ml-1 text-primary font-bold hover:underline" to="/signup">
                   Create a free account
-                </button>
+                </Link>
               </p>
             </div>
 
@@ -180,61 +179,6 @@ export default function SignIn() {
           </div>
         </div>
       </main>
-
-      {/* Sign Up Modal */}
-      {showSignup && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6" id="signup-modal">
-          <div className="absolute inset-0 bg-inverse-surface/40 backdrop-blur-sm" onClick={() => setShowSignup(false)}></div>
-          <div className="relative z-10 w-full max-w-lg bg-surface-container-lowest rounded-xl ambient-shadow overflow-hidden flex flex-col">
-            <div className="brand-gradient h-2 w-full"></div>
-            <div className="p-8 md:p-12">
-              <div className="flex justify-between items-start mb-8">
-                <div>
-                  <h3 className="font-headline text-2xl font-extrabold text-on-surface">Start Curating</h3>
-                  <p className="text-on-surface-variant mt-1">Set up your warehouse profile in minutes.</p>
-                </div>
-                <button className="p-2 hover:bg-surface-container-high rounded-full transition-colors" onClick={() => setShowSignup(false)}>
-                  <span className="material-symbols-outlined text-on-surface-variant">close</span>
-                </button>
-              </div>
-
-              <div className="space-y-6">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold text-outline tracking-wider uppercase mb-2">First Name</label>
-                    <input className="w-full no-border-input py-3 px-4" placeholder="Jane" type="text" />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold text-outline tracking-wider uppercase mb-2">Last Name</label>
-                    <input className="w-full no-border-input py-3 px-4" placeholder="Doe" type="text" />
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-outline tracking-wider uppercase mb-2">Warehouse Name</label>
-                  <input className="w-full no-border-input py-3 px-4" placeholder="Global Logistics Hub" type="text" />
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-outline tracking-wider uppercase mb-2">Role</label>
-                  <select className="w-full no-border-input py-3 px-4 appearance-none">
-                    <option>Warehouse Manager</option>
-                    <option>Inventory Specialist</option>
-                    <option>Operations Director</option>
-                    <option>Owner</option>
-                  </select>
-                </div>
-                <div className="pt-4">
-                  <Link to="/dashboard" className="block text-center w-full bg-secondary text-on-secondary font-headline font-bold py-4 rounded-lg hover:bg-on-secondary-fixed-variant transition-all ambient-shadow">
-                    Create Workspace
-                  </Link>
-                  <p className="text-center text-[11px] text-on-surface-variant mt-4 px-6">
-                    By clicking "Create Workspace," you agree to our Terms of Use and Privacy Policy.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

@@ -109,3 +109,22 @@ input::-webkit-inner-spin-button {
 .animate-slide-up {
   animation: slide-up 0.25s ease-out forwards;
 }
+
+/* Landing Page Animations */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.8s cubic-bezier(0, 0, 0.2, 1) forwards;
+  opacity: 0;
+}
+
+.brand-text-gradient {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary-container) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+

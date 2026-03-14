@@ -116,21 +116,6 @@ export default function SignUp() {
                 </div>
               </div>
               <div className="space-y-2">
-                <label className="font-label text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Work Email</label>
-                <div className="relative">
-                  <input 
-                    className="w-full no-border-input py-4 px-4 placeholder:text-outline/50 pl-4" 
-                    placeholder="john@company.com" 
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                  />
-                  <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-outline-variant">alternate_email</span>
-                </div>
-              </div>
-              <div className="space-y-2">
                 <label className="font-label text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Password</label>
                 <div className="relative">
                   <input 
@@ -170,18 +155,24 @@ export default function SignUp() {
             
             <div className="pt-2 flex items-center gap-4">
               <div className="h-px flex-1 bg-surface-container-high"></div>
-              <span className="text-[10px] font-bold text-outline-variant uppercase tracking-widest">or sign up with</span>
+              <span className="text-[10px] font-bold text-outline-variant uppercase tracking-widest">Demo Credentials</span>
               <div className="h-px flex-1 bg-surface-container-high"></div>
             </div>
             
             <div className="grid grid-cols-2 gap-4">
-              <button className="flex items-center justify-center gap-2 py-3 bg-surface-container-lowest rounded-xl border border-outline-variant/10 hover:bg-surface-container-low transition-colors">
-                <img alt="Google" className="w-5 h-5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHtuqH7I9jEsKQdHhqZRQwgQqAW8DypQKGje42OxdeKZGgqje9DuSn1J_yQmpA3gHC2xS1W8jwWRjKzi68RwG50kHMH1UrmrTIwLw5ut7-iJFLTUAVBDls_vx-UnrTd0qe3QobaM_9UxgpBchqwjeC5cWFLZBGzb4LFkylEkB9UjnCmBzaB8-9Z_klFflUDz5zGTb3Rbxw13zRtFD4mSlYCzihCSeGTLdSoXiRkYWPyVC3caCwzrM4FKBnUXjU3WowfP4tOJMllUGV"/>
-                <span className="text-xs font-semibold text-on-surface-variant">Google</span>
+              <button 
+                onClick={() => setFormData({ email: 'admin@example.com', password: 'admin123' })}
+                className="flex flex-col items-center justify-center p-3 bg-surface-container-lowest rounded-xl border border-outline-variant/10 hover:bg-surface-container-low transition-colors group"
+              >
+                <span className="text-[10px] font-bold text-primary uppercase tracking-tighter">Admin Access</span>
+                <span className="text-[9px] font-medium text-on-surface-variant group-hover:text-on-surface">admin@example.com</span>
               </button>
-              <button className="flex items-center justify-center gap-2 py-3 bg-surface-container-lowest rounded-xl border border-outline-variant/10 hover:bg-surface-container-low transition-colors">
-                <span className="material-symbols-outlined text-xl text-on-surface-variant">cloud</span>
-                <span className="text-xs font-semibold text-on-surface-variant">SSO</span>
+              <button 
+                onClick={() => setFormData({ email: 'staff@example.com', password: 'staff123' })}
+                className="flex flex-col items-center justify-center p-3 bg-surface-container-lowest rounded-xl border border-outline-variant/10 hover:bg-surface-container-low transition-colors group"
+              >
+                <span className="text-[10px] font-bold text-secondary uppercase tracking-tighter">Staff Access</span>
+                <span className="text-[9px] font-medium text-on-surface-variant group-hover:text-on-surface">staff@example.com</span>
               </button>
             </div>
             
