@@ -1,14 +1,52 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Layout from '../components/Layout';
 import { showToast } from '../components/Toast';
+import api from '../api';
 
 export default function Products() {
+  const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [search, setSearch] = useState('');
 
-  function handleSave() {
-    setShowCreateModal(false);
-    showToast({ title: 'Product Created', message: 'New product added to your catalog successfully.', type: 'success' });
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  async function fetchProducts() {
+    setIsLoading(true);
+    try {
+      const response = await api.get('/products');
+      setProducts(response.data);
+    } catch (error) {
+      showToast({ title: 'Error', message: 'Failed to fetch products', type: 'error' });
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  async function handleSave(e) {
+    if (e) e.preventDefault();
+    
+    // Extract form data (simple implementation)
+    const formData = new FormData(document.getElementById('createProductForm'));
+    const payload = {
+      name: formData.get('name'),
+      sku: formData.get('sku'),
+      description: '',
+      price: 0,
+      stock_threshold: 10,
+      requires_approval: false
+    };
+
+    try {
+      await api.post('/products', payload);
+      setShowCreateModal(false);
+      showToast({ title: 'Product Created', message: 'New product added to your catalog successfully.', type: 'success' });
+      fetchProducts();
+    } catch (error) {
+      showToast({ title: 'Error', message: 'Failed to create product', type: 'error' });
+    }
   }
 
   function handleExport() {
@@ -68,75 +106,41 @@ export default function Products() {
               </tr>
             </thead>
             <tbody className="divide-y divide-outline-variant/10">
-              <tr className="group hover:bg-surface-container-highest/30 transition-colors">
-                <td className="px-8 py-6">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
-                      <span className="material-symbols-outlined">chair</span>
-                    </div>
-                    <div>
-                      <p className="font-bold text-on-surface">Ergonomic Office Chair</p>
-                      <p className="text-xs text-on-surface-variant font-medium">SKU: FURN-00129</p>
-                    </div>
-                  </div>
-                </td>
-                <td className="px-6 py-6">
-                  <span className="inline-flex items-center px-3 py-1 bg-surface-container-high rounded-lg text-xs font-semibold">Furniture</span>
-                </td>
-                <td className="px-6 py-6 text-sm font-medium">Units</td>
-                <td className="px-6 py-6 text-right font-bold text-primary">1,240</td>
-                <td className="px-8 py-6 text-center">
-                    <button onClick={() => handleMoreOptions('Ergonomic Office Chair')} className="p-2 text-on-surface-variant hover:text-primary transition-colors">
-                      <span className="material-symbols-outlined text-sm">more_horiz</span>
-                    </button>
-                  </td>
-              </tr>
-              <tr className="group hover:bg-surface-container-highest/30 transition-colors">
-                <td className="px-8 py-6">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-secondary/10 rounded-xl flex items-center justify-center text-secondary">
-                      <span className="material-symbols-outlined">construction</span>
-                    </div>
-                    <div>
-                      <p className="font-bold text-on-surface">Steel Rods 10mm</p>
-                      <p className="text-xs text-on-surface-variant font-medium">SKU: RAW-STL-10</p>
-                    </div>
-                  </div>
-                </td>
-                <td className="px-6 py-6">
-                  <span className="inline-flex items-center px-3 py-1 bg-surface-container-high rounded-lg text-xs font-semibold">Raw Materials</span>
-                </td>
-                <td className="px-6 py-6 text-sm font-medium">kg</td>
-                <td className="px-6 py-6 text-right font-bold text-on-surface">8,500</td>
-                <td className="px-8 py-6 text-center">
-                    <button onClick={() => handleMoreOptions('Steel Rods 10mm')} className="p-2 text-on-surface-variant hover:text-primary transition-colors">
-                      <span className="material-symbols-outlined text-sm">more_horiz</span>
-                    </button>
-                  </td>
-              </tr>
-              <tr className="group hover:bg-surface-container-highest/30 transition-colors">
-                <td className="px-8 py-6">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
-                      <span className="material-symbols-outlined">inventory</span>
-                    </div>
-                    <div>
-                      <p className="font-bold text-on-surface">Standing Desk V2</p>
-                      <p className="text-xs text-on-surface-variant font-medium">SKU: FURN-00445</p>
-                    </div>
-                  </div>
-                </td>
-                <td className="px-6 py-6">
-                  <span className="inline-flex items-center px-3 py-1 bg-surface-container-high rounded-lg text-xs font-semibold">Furniture</span>
-                </td>
-                <td className="px-6 py-6 text-sm font-medium">Units</td>
-                <td className="px-6 py-6 text-right font-bold text-error">12</td>
-                <td className="px-8 py-6 text-center">
-                  <button className="p-2 text-on-surface-variant hover:text-primary transition-colors">
-                    <span className="material-symbols-outlined text-sm">more_horiz</span>
-                  </button>
-                </td>
-              </tr>
+              {isLoading ? (
+                <tr>
+                  <td colSpan="5" className="px-8 py-6 text-center text-on-surface-variant font-medium">Loading products...</td>
+                </tr>
+              ) : products.length === 0 ? (
+                <tr>
+                  <td colSpan="5" className="px-8 py-6 text-center text-on-surface-variant font-medium">No products found.</td>
+                </tr>
+              ) : (
+                products.filter(p => p.name.toLowerCase().includes(search.toLowerCase()) || p.sku.toLowerCase().includes(search.toLowerCase())).map((product) => (
+                  <tr key={product.id} className="group hover:bg-surface-container-highest/30 transition-colors">
+                    <td className="px-8 py-6">
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
+                          <span className="material-symbols-outlined">inventory_2</span>
+                        </div>
+                        <div>
+                          <p className="font-bold text-on-surface">{product.name}</p>
+                          <p className="text-xs text-on-surface-variant font-medium">SKU: {product.sku}</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-6">
+                      <span className="inline-flex items-center px-3 py-1 bg-surface-container-high rounded-lg text-xs font-semibold">General</span>
+                    </td>
+                    <td className="px-6 py-6 text-sm font-medium">Units</td>
+                    <td className="px-6 py-6 text-right font-bold text-on-surface">--</td>
+                    <td className="px-8 py-6 text-center">
+                        <button onClick={() => handleMoreOptions(product.name)} className="p-2 text-on-surface-variant hover:text-primary transition-colors">
+                          <span className="material-symbols-outlined text-sm">more_horiz</span>
+                        </button>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
@@ -153,46 +157,40 @@ export default function Products() {
               </button>
             </div>
             
-            <div className="p-8 overflow-y-auto">
+            <form id="createProductForm" onSubmit={handleSave} className="p-8 overflow-y-auto">
               <div className="grid grid-cols-2 gap-6">
                 <div className="col-span-2">
                   <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">Product Name *</label>
-                  <input type="text" className="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" placeholder="e.g. Ergonomic Keyboard" />
+                  <input name="name" type="text" className="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" placeholder="e.g. Ergonomic Keyboard" required />
                 </div>
                 <div>
                   <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">SKU / Code *</label>
-                  <input type="text" className="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" placeholder="e.g. TECH-001" />
+                  <input name="sku" type="text" className="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" placeholder="e.g. TECH-001" required />
                 </div>
                 <div>
                   <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">Category</label>
-                  <select className="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all appearance-none">
+                  <select disabled className="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all appearance-none opacity-50">
                     <option>Select Category...</option>
-                    <option>Furniture</option>
-                    <option>Raw Materials</option>
-                    <option>Electronics</option>
                   </select>
                 </div>
                 <div>
                   <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">Unit of Measure</label>
-                  <select className="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all appearance-none">
+                  <select disabled className="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all appearance-none opacity-50">
                     <option>Units</option>
-                    <option>kg</option>
-                    <option>Liters</option>
-                    <option>Meters</option>
                   </select>
                 </div>
                 <div>
                   <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">Initial Stock</label>
-                  <input type="number" className="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" placeholder="0" />
+                  <input disabled type="number" className="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all opacity-50" placeholder="0" />
                 </div>
               </div>
-            </div>
+            </form>
 
             <div className="p-6 border-t border-outline-variant/20 bg-surface-container-low flex justify-end gap-3">
-              <button onClick={() => setShowCreateModal(false)} className="px-6 py-2.5 bg-surface-container-highest text-on-surface font-bold rounded-xl hover:bg-outline-variant/30 transition-colors">
+              <button type="button" onClick={() => setShowCreateModal(false)} className="px-6 py-2.5 bg-surface-container-highest text-on-surface font-bold rounded-xl hover:bg-outline-variant/30 transition-colors">
                 Cancel
               </button>
-              <button onClick={handleSave} className="px-6 py-2.5 brand-gradient text-on-primary font-bold rounded-xl shadow-md hover:scale-[1.02] transition-transform">
+              <button form="createProductForm" type="submit" className="px-6 py-2.5 brand-gradient text-on-primary font-bold rounded-xl shadow-md hover:scale-[1.02] transition-transform">
                 Save Product
               </button>
             </div>

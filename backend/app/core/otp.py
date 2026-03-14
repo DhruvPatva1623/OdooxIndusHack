@@ -1,12 +1,13 @@
 import secrets
 import hashlib
 import json
+import time
 from datetime import datetime
 from typing import Optional
-import redis as redis_lib
 from app.core.config import settings
 
-redis_client = redis_lib.from_url(settings.REDIS_URL, decode_responses=True)
+# In-memory store replacing Redis for development
+otp_store = {}
 
 
 # ─── Generation ───────────────────────────────────────────────────────────────
@@ -37,78 +38,60 @@ def _make_key(email: str, purpose: str) -> str:
 
 
 def store_otp(email: str, otp: str, purpose: str = "password_reset") -> None:
-    """
-    Hash the OTP and store it in Redis with a TTL.
-
-    Redis key:   otp:{purpose}:{email}
-    Redis value: JSON { hashed_otp, attempts, created_at }
-    TTL:         OTP_EXPIRE_SECONDS (default 600 = 10 minutes)
-    """
     key = _make_key(email, purpose)
-    data = {"hashed_otp": hash_otp(otp), "attempts": 0, "created_at": datetime.utcnow().isoformat()}
-    redis_client.setex(key, settings.OTP_EXPIRE_SECONDS, json.dumps(data))
+    # Store expiration time (now + TTL)
+    expire_at = time.time() + settings.OTP_EXPIRE_SECONDS
+    data = {"hashed_otp": hash_otp(otp), "attempts": 0, "created_at": datetime.utcnow().isoformat(), "expire_at": expire_at}
+    otp_store[key] = data
 
 
 # ─── Verification ─────────────────────────────────────────────────────────────
 
 def verify_otp(email: str, otp: str, purpose: str = "password_reset") -> dict:
-    """
-    Verify a submitted OTP against the stored hash.
-
-    Returns:
-        { valid: True, reason: "ok" }                          on success
-        { valid: False, reason: "expired" }                    when Redis key gone
-        { valid: False, reason: "invalid", attempts_remaining} on wrong code
-        { valid: False, reason: "max_attempts" }               after N failures
-    """
     key = _make_key(email, purpose)
-    raw = redis_client.get(key)
+    data = otp_store.get(key)
 
-    if not raw:
+    if not data or time.time() > data['expire_at']:
+        if key in otp_store:
+            del otp_store[key]
         return {"valid": False, "reason": "expired"}
-
-    data = json.loads(raw)
 
     # Block after max attempts
     if data["attempts"] >= settings.OTP_MAX_ATTEMPTS:
-        redis_client.delete(key)
+        del otp_store[key]
         return {"valid": False, "reason": "max_attempts"}
 
-    # Wrong code → increment counter, re-save with remaining TTL
+    # Wrong code → increment counter
     if data["hashed_otp"] != hash_otp(otp):
         data["attempts"] += 1
-        ttl = redis_client.ttl(key)
-        if ttl > 0:
-            redis_client.setex(key, ttl, json.dumps(data))
         remaining = settings.OTP_MAX_ATTEMPTS - data["attempts"]
         return {"valid": False, "reason": "invalid", "attempts_remaining": remaining}
 
     # Correct → delete immediately (one-time use)
-    redis_client.delete(key)
+    del otp_store[key]
     return {"valid": True, "reason": "ok"}
 
 
 # ─── Helpers ──────────────────────────────────────────────────────────────────
 
 def invalidate_otp(email: str, purpose: str = "password_reset") -> None:
-    """Manually delete an OTP (e.g. on resend or user cancellation)."""
-    redis_client.delete(_make_key(email, purpose))
+    key = _make_key(email, purpose)
+    if key in otp_store:
+        del otp_store[key]
 
 
 def get_otp_ttl(email: str, purpose: str = "password_reset") -> int:
-    """
-    Return seconds remaining before OTP expires.
-    Returns -1 if key not found (expired or never sent).
-    """
-    ttl = redis_client.ttl(_make_key(email, purpose))
-    return ttl if ttl > 0 else -1
+    key = _make_key(email, purpose)
+    if key not in otp_store:
+        return -1
+    ttl = int(otp_store[key]['expire_at'] - time.time())
+    if ttl <= 0:
+        del otp_store[key]
+        return -1
+    return ttl
 
 
 def can_resend_otp(email: str, purpose: str = "password_reset") -> bool:
-    """
-    True if enough time has passed to allow a resend.
-    Resend blocked if TTL > (OTP_EXPIRE_SECONDS - OTP_RATE_LIMIT_SECONDS).
-    """
     ttl = get_otp_ttl(email, purpose)
     if ttl == -1:
         return True
