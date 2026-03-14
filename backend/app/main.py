@@ -6,14 +6,30 @@ from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
 from app.core.config import settings
 from app.api.v1.router import api_router
+
+# Import ALL models so SQLAlchemy registers them before create_all
 from app.models import location as _location
 from app.models import warehouse as _warehouse
 from app.models import user as _user
+from app.models import product as _product
+from app.models import delivery as _delivery
+from app.models import receipt as _receipt
+from app.models import adjustment as _adjustment
+from app.models import audit as _audit
+from app.models import stock_ledger as _stock_ledger
+from app.models import transfer as _transfer
+
+from app.db.base import Base
+from app.db.session import engine
+
 from fastapi import Request
 from fastapi.responses import JSONResponse
 
 class InvalidStateError(Exception):
     pass
+
+# Auto-create all database tables on startup (safe for SQLite / local dev)
+Base.metadata.create_all(bind=engine)
 
 async def global_exception_handler(request: Request, exc: Exception):
     import traceback
