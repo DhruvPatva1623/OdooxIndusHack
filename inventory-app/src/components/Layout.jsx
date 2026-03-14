@@ -29,6 +29,8 @@ export default function Layout({ children }) {
       items: [
         { name: 'Warehouse', icon: 'warehouse', path: '/warehouse' },
         { name: 'Stock Levels', icon: 'analytics', path: '/stock-levels' },
+        { name: 'Quick Inbound', icon: 'transit_enterexit', path: '/quick-inbound' },
+        { name: 'Inventory Audit', icon: 'fact_check', path: '/inventory-audit' },
       ]
     },
   ];

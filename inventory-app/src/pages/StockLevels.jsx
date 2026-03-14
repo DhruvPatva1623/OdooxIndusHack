@@ -4,9 +4,9 @@ import { showToast } from '../components/Toast';
 import { useNavigate } from 'react-router-dom';
 
 const stockData = [
-  { name: 'Ergonomic Office Chair V2', sku: 'FURN-00129', icon: 'package_2', cost: '$189.50', onHand: 1240, free: 1118, status: 'Ready', statusColor: 'bg-tertiary-container text-on-tertiary-container' },
-  { name: 'Standing Desk Converter', sku: 'FURN-00130', icon: 'inventory', cost: '$295.00', onHand: 430, free: 400, status: 'Transit', statusColor: 'bg-surface-container-highest text-on-surface-variant' },
-  { name: 'Monitor Arm Array', sku: 'TECH-99120', icon: 'warning', cost: '$120.00', onHand: 12, free: 12, status: 'Low Stock', statusColor: 'bg-error-container text-on-error-container', alert: true },
+  { name: 'Ergonomic Office Chair V2', sku: 'FURN-00129', icon: 'package_2', cost: '₹189.50', onHand: 1240, free: 1118, status: 'Ready', statusColor: 'bg-tertiary-container text-on-tertiary-container' },
+  { name: 'Standing Desk Converter', sku: 'FURN-00130', icon: 'inventory', cost: '₹295.00', onHand: 430, free: 400, status: 'Transit', statusColor: 'bg-surface-container-highest text-on-surface-variant' },
+  { name: 'Monitor Arm Array', sku: 'TECH-99120', icon: 'warning', cost: '₹120.00', onHand: 12, free: 12, status: 'Low Stock', statusColor: 'bg-error-container text-on-error-container', alert: true },
 ];
 
 export default function StockLevels() {
@@ -15,11 +15,11 @@ export default function StockLevels() {
   const [activeFilter, setActiveFilter] = useState('All Stock');
 
   function handleQuickInbound() {
-    navigate('/receipts');
+    navigate('/quick-inbound');
   }
 
   function handleAudit() {
-    navigate('/adjustments');
+    navigate('/inventory-audit');
   }
 
   function handleEdit(name) {
@@ -64,10 +64,10 @@ export default function StockLevels() {
               <span className="text-xs font-bold text-on-tertiary-container mb-1">SKUs</span>
             </div>
           </button>
-          <button onClick={() => showToast({ title: 'Total Asset Value', message: 'Current inventory valued at $142,840 across all warehouses.', type: 'info' })} className="bg-surface-container-high p-6 rounded-[2rem] flex flex-col justify-center text-left hover:ring-2 hover:ring-primary/20 transition-all">
+          <button onClick={() => showToast({ title: 'Total Asset Value', message: 'Current inventory valued at ₹142,840 across all warehouses.', type: 'info' })} className="bg-surface-container-high p-6 rounded-[2rem] flex flex-col justify-center text-left hover:ring-2 hover:ring-primary/20 transition-all">
             <span className="text-xs font-bold text-on-surface-variant/60 uppercase">Total Asset Value</span>
             <div className="flex items-end gap-2 mt-1">
-              <span className="text-3xl font-headline font-extrabold text-on-surface leading-none">$142.8k</span>
+              <span className="text-3xl font-headline font-extrabold text-on-surface leading-none">₹142.8k</span>
             </div>
           </button>
         </div>

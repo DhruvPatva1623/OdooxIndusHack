@@ -17,6 +17,8 @@ import MoveHistory from './pages/MoveHistory';
 import Warehouse from './pages/Warehouse';
 import StockLevels from './pages/StockLevels';
 import UserProfile from './pages/UserProfile';
+import QuickInbound from './pages/QuickInbound';
+import InventoryAudit from './pages/InventoryAudit';
 
 function App() {
   return (
@@ -42,6 +44,8 @@ function App() {
             <Route path="/warehouse" element={<Warehouse />} />
             <Route path="/stock-levels" element={<StockLevels />} />
             <Route path="/profile" element={<UserProfile />} />
+            <Route path="/quick-inbound" element={<QuickInbound />} />
+            <Route path="/inventory-audit" element={<InventoryAudit />} />
           </Route>
         </Routes>
       </AuthProvider>
