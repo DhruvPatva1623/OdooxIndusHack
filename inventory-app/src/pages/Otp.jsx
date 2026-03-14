@@ -1,7 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { showToast } from '../components/Toast';
 
 export default function Otp() {
+  const [resent, setResent] = useState(false);
+
+  function handleResend() {
+    setResent(true);
+    showToast({ title: 'OTP Resent', message: 'A new 6-digit code has been sent to your email.', type: 'success' });
+    setTimeout(() => setResent(false), 30000);
+  }
   return (
     <div className="bg-surface text-on-surface min-h-screen flex flex-col items-center justify-center p-6 selection:bg-primary-container selection:text-on-primary-container">
       <main className="w-full max-w-lg">
@@ -45,7 +53,9 @@ export default function Otp() {
                 <div className="flex flex-col items-center gap-4">
                   <p className="text-on-surface-variant text-sm">
                     Didn't receive the code? 
-                    <button className="ml-1 text-primary font-semibold hover:underline decoration-2 underline-offset-4">Resend code</button>
+                    <button onClick={handleResend} disabled={resent} className={`ml-1 font-semibold hover:underline decoration-2 underline-offset-4 ${resent ? 'text-on-surface-variant cursor-not-allowed' : 'text-primary'}`}>
+                      {resent ? 'Code Sent ✓' : 'Resend code'}
+                    </button>
                   </p>
                   <Link className="flex items-center gap-2 text-on-surface-variant text-sm hover:text-primary transition-colors" to="/signin">
                     <span className="material-symbols-outlined text-sm">keyboard_backspace</span>

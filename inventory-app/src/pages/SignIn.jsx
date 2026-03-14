@@ -8,7 +8,7 @@ export default function SignIn() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -23,9 +23,9 @@ export default function SignIn() {
     setError('');
 
     const result = await login(email, password);
-    
+
     setIsLoading(false);
-    
+
     if (result.success) {
       navigate('/warehouse');
     } else {
@@ -48,7 +48,7 @@ export default function SignIn() {
           <div className="relative z-10">
             <div className="flex items-center gap-3 mb-12">
               <div className="w-10 h-10 brand-gradient rounded flex items-center justify-center">
-                <span className="material-symbols-outlined text-on-primary" style={{fontVariationSettings: "'FILL' 1"}}>inventory_2</span>
+                <span className="material-symbols-outlined text-on-primary" style={{ fontVariationSettings: "'FILL' 1" }}>inventory_2</span>
               </div>
               <span className="font-headline font-extrabold text-xl tracking-tight text-on-surface">Inventory Pro</span>
             </div>
@@ -63,7 +63,7 @@ export default function SignIn() {
             <div className="bg-surface-container-lowest p-6 rounded-xl ambient-shadow border border-outline-variant/10">
               <div className="flex items-center gap-4 mb-4">
                 <div className="w-12 h-12 rounded-full overflow-hidden bg-surface-container-high">
-                  <img alt="User Avatar" className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvu3EjC597fZMpiPegliQCFFaXK70jyLQcJQlTB7l9ZvcYQqxM3t8wFvV5sCpBu2Caw0es0PkdOHvH5iRPzmLkRtnF0t4VyjX15uJQtn2RXh4kc9E9Y8bVPnZvVHr3Yn0hhWh_v8kLq6zottEi-y2Cf9XfOgFoy_4zrA5NXSXU7FbaHhHqCKUosriJ2ZDzqL1NTj98Xn5oblh97x9T-f1CPB6bR-ctdgzeoyFrdxDUbEDz8_U8NLMmE2VEFtIDmcciMM9Er3wFwkNL"/>
+                  <img alt="User Avatar" className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvu3EjC597fZMpiPegliQCFFaXK70jyLQcJQlTB7l9ZvcYQqxM3t8wFvV5sCpBu2Caw0es0PkdOHvH5iRPzmLkRtnF0t4VyjX15uJQtn2RXh4kc9E9Y8bVPnZvVHr3Yn0hhWh_v8kLq6zottEi-y2Cf9XfOgFoy_4zrA5NXSXU7FbaHhHqCKUosriJ2ZDzqL1NTj98Xn5oblh97x9T-f1CPB6bR-ctdgzeoyFrdxDUbEDz8_U8NLMmE2VEFtIDmcciMM9Er3wFwkNL" />
                 </div>
                 <div>
                   <p className="font-headline font-semibold text-on-surface">Alex Rivera</p>
@@ -75,7 +75,7 @@ export default function SignIn() {
           </div>
           {/* Abstract Decoration */}
           <div className="absolute -bottom-10 -right-10 opacity-20 transform rotate-12">
-            <span className="material-symbols-outlined text-[200px] text-primary" style={{fontVariationSettings: "'wght' 100"}}>grid_view</span>
+            <span className="material-symbols-outlined text-[200px] text-primary" style={{ fontVariationSettings: "'wght' 100" }}>grid_view</span>
           </div>
         </div>
 
@@ -91,12 +91,12 @@ export default function SignIn() {
               <div>
                 <label className="block text-sm font-semibold text-on-surface-variant mb-2" htmlFor="email">Work Email</label>
                 <div className="relative">
-                  <input 
-                    className="w-full no-border-input pt-4 pb-4 px-4" 
-                    id="email" 
-                    name="email" 
-                    placeholder="name@company.com" 
-                    type="email" 
+                  <input
+                    className="w-full no-border-input pt-4 pb-4 px-4"
+                    id="email"
+                    name="email"
+                    placeholder="name@company.com"
+                    type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
@@ -109,12 +109,12 @@ export default function SignIn() {
                   <Link className="text-xs font-semibold text-primary hover:text-on-secondary-container transition-colors" to="/forgot-password">Forgot Password?</Link>
                 </div>
                 <div className="relative">
-                  <input 
-                    className="w-full no-border-input pt-4 pb-4 px-4" 
-                    id="password" 
-                    name="password" 
-                    placeholder="••••••••" 
-                    type="password" 
+                  <input
+                    className="w-full no-border-input pt-4 pb-4 px-4"
+                    id="password"
+                    name="password"
+                    placeholder="••••••••"
+                    type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
@@ -127,20 +127,10 @@ export default function SignIn() {
                 <label className="text-sm text-on-surface-variant font-medium" htmlFor="remember">Remember this device</label>
               </div>
 
-              {error && (
-                <div className="bg-error/10 text-error p-3 rounded-md text-sm font-medium">
-                  {error}
-                </div>
-              )}
-
-              <button 
-                type="submit" 
-                disabled={isLoading}
-                className={`w-full bg-primary hover:bg-on-secondary-fixed-variant text-on-primary font-headline font-bold py-4 rounded-lg transition-all transform hover:-translate-y-0.5 ambient-shadow flex items-center justify-center gap-2 ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
-              >
-                <span>{isLoading ? 'Signing In...' : 'Sign In'}</span>
-                {!isLoading && <span className="material-symbols-outlined text-sm">arrow_forward</span>}
-              </button>
+              <Link to="/dashboard" className="w-full bg-primary hover:bg-on-secondary-fixed-variant text-on-primary font-headline font-bold py-4 rounded-lg transition-all transform hover:-translate-y-0.5 ambient-shadow flex items-center justify-center gap-2">
+                <span>Sign In</span>
+                <span className="material-symbols-outlined text-sm">arrow_forward</span>
+              </Link>
             </form>
 
             <div className="mt-8 pt-8 border-t border-surface-container-high text-center">
@@ -203,7 +193,7 @@ export default function SignIn() {
                   </select>
                 </div>
                 <div className="pt-4">
-                  <Link to="/warehouse" className="block text-center w-full bg-secondary text-on-secondary font-headline font-bold py-4 rounded-lg hover:bg-on-secondary-fixed-variant transition-all ambient-shadow">
+                  <Link to="/dashboard" className="block text-center w-full bg-secondary text-on-secondary font-headline font-bold py-4 rounded-lg hover:bg-on-secondary-fixed-variant transition-all ambient-shadow">
                     Create Workspace
                   </Link>
                   <p className="text-center text-[11px] text-on-surface-variant mt-4 px-6">
