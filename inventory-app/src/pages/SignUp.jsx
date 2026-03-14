@@ -10,7 +10,7 @@ export default function SignUp() {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   
-  const { signup } = useAuth();
+  const { signup, login } = useAuth();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -161,14 +161,28 @@ export default function SignUp() {
             
             <div className="grid grid-cols-2 gap-4">
               <button 
-                onClick={() => setFormData({ email: 'admin@example.com', password: 'admin123' })}
+                type="button"
+                onClick={async () => {
+                  setIsLoading(true);
+                  const result = await login('admin@example.com', 'admin123');
+                  setIsLoading(false);
+                  if (result.success) navigate('/warehouse');
+                  else setError(result.error);
+                }}
                 className="flex flex-col items-center justify-center p-3 bg-surface-container-lowest rounded-xl border border-outline-variant/10 hover:bg-surface-container-low transition-colors group"
               >
                 <span className="text-[10px] font-bold text-primary uppercase tracking-tighter">Admin Access</span>
                 <span className="text-[9px] font-medium text-on-surface-variant group-hover:text-on-surface">admin@example.com</span>
               </button>
               <button 
-                onClick={() => setFormData({ email: 'staff@example.com', password: 'staff123' })}
+                type="button"
+                onClick={async () => {
+                  setIsLoading(true);
+                  const result = await login('staff@example.com', 'staff123');
+                  setIsLoading(false);
+                  if (result.success) navigate('/warehouse');
+                  else setError(result.error);
+                }}
                 className="flex flex-col items-center justify-center p-3 bg-surface-container-lowest rounded-xl border border-outline-variant/10 hover:bg-surface-container-low transition-colors group"
               >
                 <span className="text-[10px] font-bold text-secondary uppercase tracking-tighter">Staff Access</span>
