@@ -8,6 +8,7 @@ from app.api.v1.receipts import routes as receipt_routes
 from app.api.v1.deliveries import routes as delivery_routes
 from app.api.v1.transfers import routes as transfer_routes
 from app.api.v1.stock import routes as stock_routes
+from app.api.v1.dev_routes import router as dev_routes
 
 api_router = APIRouter()
 
@@ -20,3 +21,4 @@ api_router.include_router(receipt_routes.router)
 api_router.include_router(delivery_routes.router)
 api_router.include_router(transfer_routes.router)
 api_router.include_router(stock_routes.router)
+api_router.include_router(dev_routes)

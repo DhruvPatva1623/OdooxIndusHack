@@ -131,8 +131,37 @@ export default function SignIn() {
                 {isLoading ? 'Signing In...' : 'Sign In'}
                 <span className="material-symbols-outlined text-sm">arrow_forward</span>
               </button>
-              {error && <p className="mt-2 text-sm text-error">{error}</p>}
+              {error && (
+                <p className="mt-4 text-sm text-red-500 font-semibold bg-red-50 p-3 rounded-lg border border-red-100 flex items-center gap-2">
+                  <span className="material-symbols-outlined text-sm">error</span>
+                  {error}
+                </p>
+              )}
             </form>
+
+            {/* Demo Credentials Section */}
+            <div className="mt-8 p-6 bg-surface-container-high rounded-xl border border-outline-variant/10">
+              <h3 className="text-sm font-bold text-on-surface uppercase tracking-wider mb-4 flex items-center gap-2">
+                <span className="material-symbols-outlined text-lg text-primary">info</span>
+                Demo Credentials
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <button 
+                  onClick={() => { setEmail('admin@example.com'); setPassword('admin123'); }}
+                  className="text-left p-3 rounded-lg bg-surface-container-low hover:bg-surface-container-lowest transition-colors border border-outline-variant/10 group"
+                >
+                  <p className="text-xs font-bold text-primary mb-1">Admin Access</p>
+                  <p className="text-[10px] text-on-surface-variant group-hover:text-on-surface">admin@example.com</p>
+                </button>
+                <button 
+                  onClick={() => { setEmail('staff@example.com'); setPassword('staff123'); }}
+                  className="text-left p-3 rounded-lg bg-surface-container-low hover:bg-surface-container-lowest transition-colors border border-outline-variant/10 group"
+                >
+                  <p className="text-xs font-bold text-secondary mb-1">Staff Access</p>
+                  <p className="text-[10px] text-on-surface-variant group-hover:text-on-surface">staff@example.com</p>
+                </button>
+              </div>
+            </div>
 
             <div className="mt-8 pt-8 border-t border-surface-container-high text-center">
               <p className="text-on-surface-variant text-sm font-medium">

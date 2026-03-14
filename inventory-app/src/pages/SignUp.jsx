@@ -4,7 +4,6 @@ import { useAuth } from '../context/AuthContext';
 
 export default function SignUp() {
   const [formData, setFormData] = useState({
-    full_name: '',
     email: '',
     password: ''
   });
@@ -20,15 +19,16 @@ export default function SignUp() {
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-    if (!formData.full_name || !formData.email || !formData.password) {
-      setError('Please fill out all fields.');
+    if (!formData.email || !formData.password) {
+      setError('Please fill out both email and password.');
       return;
     }
 
     setIsLoading(true);
     setError('');
 
-    const result = await signup(formData);
+    const full_name = formData.email.split('@')[0] || 'User';
+    const result = await signup({ ...formData, full_name });
     
     setIsLoading(false);
     
@@ -101,18 +101,18 @@ export default function SignUp() {
             
             <form className="space-y-6" onSubmit={handleSignUp}>
               <div className="space-y-2">
-                <label className="font-label text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Full Name</label>
+                <label className="font-label text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Work Email</label>
                 <div className="relative">
                   <input 
                     className="w-full no-border-input py-4 px-4 placeholder:text-outline/50 pl-4" 
-                    placeholder="John Doe" 
-                    type="text"
-                    name="full_name"
-                    value={formData.full_name}
+                    placeholder="john@company.com" 
+                    type="email"
+                    name="email"
+                    value={formData.email}
                     onChange={handleChange}
                     required
                   />
-                  <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-outline-variant">person</span>
+                  <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-outline-variant">alternate_email</span>
                 </div>
               </div>
               <div className="space-y-2">
@@ -131,7 +131,7 @@ export default function SignUp() {
                 </div>
               </div>
               <div className="space-y-2">
-                <label className="font-label text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Create Password</label>
+                <label className="font-label text-xs font-semibold text-on-surface-variant uppercase tracking-wider">Password</label>
                 <div className="relative">
                   <input 
                     className="w-full no-border-input py-4 px-4 placeholder:text-outline/50 pl-4" 
