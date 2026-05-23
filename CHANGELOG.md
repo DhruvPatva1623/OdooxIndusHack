@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- Initial changelog setup.
+- Initial changelog setu
 
 ## [2026-03-14]
 
