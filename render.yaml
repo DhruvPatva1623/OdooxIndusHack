@@ -1,0 +1,57 @@
+databases:
+  - name: coreinventory-db
+    databaseName: coreinventory
+    user: coreinventory_user
+    plan: free
+
+services:
+  # Backend FastAPI Web Service (Dockerized)
+  - type: web
+    name: coreinventory-backend
+    env: docker
+    rootDir: backend
+    dockerfilePath: Dockerfile
+    dockerContext: .
+    plan: free
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: coreinventory-db
+          property: connectionString
+      - key: APP_ENV
+        value: production
+      - key: DEBUG
+        value: "False"
+      - key: ALLOWED_ORIGINS
+        value: "*"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ALGORITHM
+        value: HS256
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: "43200"
+      - key: REFRESH_TOKEN_EXPIRE_DAYS
+        value: "7"
+      - key: SMTP_HOST
+        value: smtp.gmail.com
+      - key: SMTP_PORT
+        value: "587"
+      - key: SMTP_USER
+        value: "your_email@gmail.com"
+      - key: SMTP_PASSWORD
+        value: "your_password"
+      - key: EMAIL_FROM
+        value: "your_email@gmail.com"
+
+  # Frontend React Static Site
+  - type: web
+    name: coreinventory-frontend
+    env: static
+    rootDir: inventory-app
+    buildCommand: npm install && npm run build
+    publishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          name: coreinventory-backend
+          value: url

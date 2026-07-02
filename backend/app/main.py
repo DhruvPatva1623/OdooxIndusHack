@@ -31,6 +31,13 @@ class InvalidStateError(Exception):
 # Auto-create all database tables on startup (safe for SQLite / local dev)
 Base.metadata.create_all(bind=engine)
 
+# Auto-seed demo users on startup
+try:
+    from seed_users import seed_users
+    seed_users()
+except Exception as e:
+    print(f"Startup seeding error: {e}")
+
 async def global_exception_handler(request: Request, exc: Exception):
     import traceback
     err = ''.join(traceback.format_exception(type(exc), exc, exc.__traceback__))
